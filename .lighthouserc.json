@@ -4,7 +4,7 @@
       "preset": "lighthouse:recommended"
     },
     "collect": {
-      "staticDistDir": "./out"
+      "staticDistDir": "./dist"
     },
     "upload": {
       "target": "temporary-public-storage"
