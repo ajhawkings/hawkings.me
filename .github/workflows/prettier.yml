@@ -1,6 +1,5 @@
 name: Format code with Prettier
 on:
-  pull_request:
   push:
 jobs:
   format:
@@ -19,11 +18,16 @@ jobs:
           node-version-file: '.nvmrc'
           # Update to the latest version of Node.js every time
           check-latest: true
-      - name: Update npm and install packages, build and export
-        run: npm install -g npm
-        run: npm ci
+      - name: Update npm and install packages
+        run: npm install -g npm && npm ci
       - name: Format Code
         run: npm run format
+      - name: Import GPG key
+        id: import_gpg
+        uses: crazy-max/ghaction-import-gpg@v5
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
