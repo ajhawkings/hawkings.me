@@ -1,7 +1,7 @@
 name: Format code with Prettier
 on:
   pull_request:
-    branches: [main]
+  push:
 jobs:
   format:
     runs-on: ubuntu-latest
