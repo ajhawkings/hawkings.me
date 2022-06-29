@@ -1,12 +1,17 @@
 {
   "cSpell.words": [
+    "ajhawkings",
+    "automerge",
     "autorun",
     "Hawkings",
+    "labeled",
     "lhci",
     "lighthouserc",
     "nvmrc",
+    "pascalgn",
     "plugins",
-    "stefanzweifel"
+    "stefanzweifel",
+    "unlabeled"
   ],
   "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
