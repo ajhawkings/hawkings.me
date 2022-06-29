@@ -1,0 +1,30 @@
+name: CI
+# Only run on push to branch or when manually triggered
+on: [push, workflow_dispatch]
+jobs:
+  lhci:
+    name: Lighthouse
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3.3.0
+        with:
+          # Cache npm packages
+          cache: 'npm'
+          # Use the nvm file to ask for the latest LTS version of Node.js
+          node-version-file: '.nvmrc'
+          # Update to the latest version of Node.js every time
+          check-latest: true
+      - name: Update npm, install packages, build and export
+        run: |
+          npm install -g npm
+          npm ci
+          npm run build
+      - name: run Lighthouse CI
+        # Uses config from .lighthouserc.json
+        run: |
+          npm install -g @lhci/cli@0.9.x
+          lhci autorun
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}

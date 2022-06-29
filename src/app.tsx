@@ -10,7 +10,7 @@ const App: Component = () => {
 
   const location = useLocation()
   const path = location.pathname
-  const title = routes.find(route => route.path === path)?.name
+  const title = routes.find((route) => route.path === path)?.name
 
   return (
     <>
