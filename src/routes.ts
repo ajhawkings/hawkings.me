@@ -12,4 +12,14 @@ export const routes: Array<Routes> = [
     component: lazy(() => import('./home/home')),
     name: 'Home',
   },
+  {
+    path: '/about',
+    component: lazy(() => import('./about/about')),
+    name: 'About',
+  },
+  {
+    path: '/projects',
+    component: lazy(() => import('./projects/projects')),
+    name: 'Projects',
+  },
 ]
