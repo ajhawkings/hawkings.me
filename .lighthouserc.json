@@ -1,0 +1,13 @@
+{
+  "ci": {
+    "assert": {
+      "preset": "lighthouse:recommended"
+    },
+    "collect": {
+      "staticDistDir": "./out"
+    },
+    "upload": {
+      "target": "temporary-public-storage"
+    }
+  }
+}
