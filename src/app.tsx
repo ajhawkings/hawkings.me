@@ -1,6 +1,8 @@
 import { useRoutes } from 'solid-app-router'
 import { routes } from './routes'
 
+import NavBar from './components/NavBar'
+
 import type { Component } from 'solid-js'
 
 const App: Component = () => {
@@ -8,6 +10,7 @@ const App: Component = () => {
 
   return (
     <>
+      <NavBar />
       <main>
         <Route />
       </main>
