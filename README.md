@@ -35,3 +35,7 @@ Hawkings.me is my personal website built using [solid.js](https://github.com/sol
     ```shell
     npm install
     ```
+
+### IDE/Code Editor
+
+[VS Code](https://code.visualstudio.com/) is recommended. Please install the recommended extensions (in [vscode/extensions.json](./vscode/extensions.json))
