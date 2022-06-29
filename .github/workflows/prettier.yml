@@ -6,14 +6,24 @@ jobs:
   format:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: "Clone repo"
+        uses: actions/checkout@v3
         with:
           ref: ${{ github.head_ref }}
-      - uses: actions/setup-node@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v3.3.0
         with:
-          node-version: "14.x"
-      - run: npm ci
-      - run: npm run format
+          # Cache npm packages
+          cache: 'npm'
+          # Use the nvm file to ask for the latest LTS version of Node.js
+          node-version-file: '.nvmrc'
+          # Update to the latest version of Node.js every time
+          check-latest: true
+      - name: Update npm and install packages, build and export
+        run: npm install -g npm
+        run: npm ci
+      - name: Format Code
+        run: npm run format
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
