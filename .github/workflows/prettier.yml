@@ -35,4 +35,6 @@ jobs:
         with:
           commit_options: '-S'
           commit_message: Format code with prettier
+          commit_user_name: ajhawkings[bot]
+          commit_user_email: 70203823+ajhawkings@users.noreply.github.com
           branch: ${{ github.head_ref }}
