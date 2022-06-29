@@ -1,0 +1,20 @@
+{
+  "name": "hawkings.me",
+  "version": "0.1.0",
+  "description": "",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "format": "prettier --write **/*.{ts,tsx,json,css}"
+  },
+  "devDependencies": {
+    "typescript": "^4.7.4",
+    "vite": "^2.9.9",
+    "vite-plugin-solid": "^2.2.6"
+  },
+  "dependencies": {
+    "solid-app-router": "^0.3.3",
+    "solid-js": "^1.4.2"
+  }
+}
