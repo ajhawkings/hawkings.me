@@ -3,6 +3,7 @@
     "clinyong.vscode-css-modules",
     "davidanson.vscode-markdownlint",
     "streetsidesoftware.code-spell-checker",
-    "waderyan.nodejs-extension-pack"
+    "waderyan.nodejs-extension-pack",
+    "esbenp.prettier-vscode"
   ]
 }
