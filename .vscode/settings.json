@@ -8,4 +8,5 @@
     "plugins",
     "stefanzweifel"
   ],
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
