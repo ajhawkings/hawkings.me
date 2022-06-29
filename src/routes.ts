@@ -22,4 +22,9 @@ export const routes: Array<Routes> = [
     component: lazy(() => import('./projects/projects')),
     name: 'Projects',
   },
+  {
+    path: '**',
+    component: lazy(() => import('./errors/404')),
+    name: '404',
+  },
 ]
