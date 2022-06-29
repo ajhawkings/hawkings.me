@@ -19,9 +19,8 @@ jobs:
           node-version-file: '.nvmrc'
           # Update to the latest version of Node.js every time
           check-latest: true
-      - name: Update npm and install packages, build and export
-        run: npm install -g npm
-        run: npm ci
+      - name: Update npm and install packages
+        run: npm install -g npm && npm ci
       - name: Format Code
         run: npm run format
       - name: Commit changes
