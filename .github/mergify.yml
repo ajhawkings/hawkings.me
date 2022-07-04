@@ -5,4 +5,5 @@ pull_request_rules:
       - 'author=dependabot[bot]'
     actions:
       merge:
-        method: merge
+        method: squash
+      delete_head_branch:
