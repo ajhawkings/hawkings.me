@@ -20,7 +20,12 @@ const App: Component = () => {
       <main>
         <Routes>
           {routes.map((route) => (
-            <Route path={route.path} component={lazy(() => import(`./${route.folder}/${route.component}`))} />
+            <Route
+              path={route.path}
+              component={lazy(
+                () => import(`./${route.folder}/${route.component}`)
+              )}
+            />
           ))}
         </Routes>
       </main>

@@ -1,12 +1,12 @@
 interface Routes {
-  path: string;
-  folder: string;
-  component: string;
-  title: string;
-  navHide?: boolean;
+  path: string
+  folder: string
+  component: string
+  title: string
+  navHide?: boolean
 }
 
-export const routes:Array<Routes> = [
+export const routes: Array<Routes> = [
   {
     path: '/',
     folder: 'home',
