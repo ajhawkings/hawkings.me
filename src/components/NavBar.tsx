@@ -1,17 +1,19 @@
 import { routes } from '../routes'
 
 import { Link } from 'solid-app-router'
-import { For } from 'solid-js'
+import { For, Show } from 'solid-js'
 
 export default function NavBar() {
   return (
-    <nav class="bg-gray-200 text-gray-900 px-4">
-      <ul class="flex items-center">
+    <nav>
+      <ul>
         <For each={routes}>
           {(route) => (
-            <li>
-              <Link href={route.path}>{route.name}</Link>
-            </li>
+            <Show when={!route.navHide}>
+              <li>
+                <Link href={route.path}>{route.title}</Link>
+              </li>
+            </Show>
           )}
         </For>
       </ul>

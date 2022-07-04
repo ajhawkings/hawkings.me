@@ -1,30 +1,35 @@
-import { lazy } from 'solid-js'
-
-import type { RouteDefinition } from 'solid-app-router'
-
-type Routes = RouteDefinition & {
-  name: string
+interface Routes {
+  path: string;
+  folder: string;
+  component: string;
+  title: string;
+  navHide?: boolean;
 }
 
-export const routes: Array<Routes> = [
+export const routes:Array<Routes> = [
   {
     path: '/',
-    component: lazy(() => import('./home/home')),
-    name: 'Home',
+    folder: 'home',
+    component: 'home',
+    title: 'Home',
   },
   {
     path: '/about',
-    component: lazy(() => import('./about/about')),
-    name: 'About',
+    folder: 'about',
+    component: 'about',
+    title: 'About',
   },
   {
     path: '/projects',
-    component: lazy(() => import('./projects/projects')),
-    name: 'Projects',
+    folder: 'projects',
+    component: 'projects',
+    title: 'Projects',
   },
   {
     path: '**',
-    component: lazy(() => import('./errors/404')),
-    name: '404',
+    folder: 'errors',
+    component: '404',
+    title: '404',
+    navHide: true,
   },
 ]
