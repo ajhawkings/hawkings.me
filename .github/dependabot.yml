@@ -14,6 +14,8 @@ updates:
     labels:
       - "area:ci"
       - "type:dependencies"
+    reviewers:
+      - "ajhawkings"
 
   # Maintain dependencies for npm
   - package-ecosystem: "npm"
@@ -23,3 +25,5 @@ updates:
     labels:
       - "area:npm"
       - "type:dependencies"
+    reviewers:
+      - "ajhawkings"
