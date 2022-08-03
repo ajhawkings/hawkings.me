@@ -1,7 +1,7 @@
 import { createEffect, lazy } from 'solid-js'
 import { routes } from './routes'
 
-import { Routes, Route } from 'solid-app-router'
+import { Routes, Route } from '@solidjs/router'
 import NavBar from './components/NavBar'
 
 import type { Component } from 'solid-js'

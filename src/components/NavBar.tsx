@@ -1,6 +1,6 @@
 import { routes } from '../routes'
 
-import { Link } from 'solid-app-router'
+import { Link } from '@solidjs/router'
 import { For, Show } from 'solid-js'
 
 export default function NavBar() {
