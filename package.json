@@ -9,7 +9,7 @@
     "format": "prettier --write **/*.{ts,tsx,json,css}"
   },
   "devDependencies": {
-    "eslint": "^8.22.0",
+    "eslint": "^8.23.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-solid": "^0.7.1",
     "prettier": "^2.7.1",
