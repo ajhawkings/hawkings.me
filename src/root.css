@@ -1,0 +1,11 @@
+body {
+  font-family: sans-serif;
+  margin: none;
+}
+main {
+  padding: 2rem;
+}
+
+nav > ul > * {
+  margin-right: 1rem;
+}

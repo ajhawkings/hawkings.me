@@ -7,6 +7,7 @@
     "start": "solid-start start",
     "format": "prettier --write **/*.{ts,tsx,json,css}"
   },
+  "type": "module",
   "devDependencies": {
     "@types/node": "^18.11.9",
     "esbuild": "^0.14.54",
@@ -23,6 +24,10 @@
     "@solidjs/meta": "^0.28.0",
     "@solidjs/router": "^0.6.0",
     "solid-js": "^1.6.6",
-    "solid-start": "^0.2.0"
+    "solid-start": "^0.2.9",
+    "solid-start-vercel": "^0.2.9"
+  },
+  "engines": {
+    "node": ">=16.8"
   }
 }
