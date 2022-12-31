@@ -1,9 +1,20 @@
 // @refresh reload
-import { createEffect, lazy, Suspense } from "solid-js";
-import { Body, ErrorBoundary, FileRoutes, Head, Html, Meta, Route, Routes, Scripts, Title } from "solid-start";
-import { routes } from "./routes";
-import NavBar from "./components/NavBar";
-import "./root.css";
+import { createEffect, lazy, Suspense } from 'solid-js'
+import {
+  Body,
+  ErrorBoundary,
+  FileRoutes,
+  Head,
+  Html,
+  Meta,
+  Route,
+  Routes,
+  Scripts,
+  Title,
+} from 'solid-start'
+import { routes } from './routes'
+import NavBar from './components/NavBar'
+import './root.css'
 
 export default function Root() {
   createEffect(() => {

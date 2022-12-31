@@ -7,7 +7,7 @@
     "start": "solid-start start",
     "format": "prettier --write **/*.{ts,tsx,json,css}"
   },
-  "type":"module",
+  "type": "module",
   "devDependencies": {
     "@types/node": "^18.11.9",
     "esbuild": "^0.14.54",
