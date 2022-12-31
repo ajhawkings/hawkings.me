@@ -29,7 +29,7 @@ export default function Root() {
                 <Route
                   path={route.path}
                   component={lazy(
-                    () => import(`./${route.folder}/${route.component}`)
+                    () => import(`./${route.folder}/${route.component}.tsx`)
                   )}
                 />
               ))}
