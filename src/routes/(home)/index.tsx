@@ -1,8 +1,8 @@
-import { Title } from "solid-start";
+import { Title } from 'solid-start'
 
-import styles from "./home.module.css";
+import styles from './home.module.css'
 
-export default function Home () {
+export default function Home() {
   return (
     <>
       <Title>Home | hawkings.me</Title>
