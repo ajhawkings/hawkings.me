@@ -1,24 +1,28 @@
 {
   "name": "hawkings.me",
   "version": "0.1.0",
-  "description": "",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "serve": "vite preview",
+    "dev": "solid-start dev",
+    "build": "solid-start build",
+    "start": "solid-start start",
     "format": "prettier --write **/*.{ts,tsx,json,css}"
   },
   "devDependencies": {
+    "@types/node": "^18.11.9",
+    "esbuild": "^0.14.54",
     "eslint": "^8.19.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-solid": "^0.7.0",
+    "postcss": "^8.4.18",
     "prettier": "^2.7.1",
-    "typescript": "^4.7.4",
-    "vite": "^2.9.14",
-    "vite-plugin-solid": "^2.2.6"
+    "solid-start-node": "^0.2.0",
+    "typescript": "^4.8.4",
+    "vite": "^3.1.8"
   },
   "dependencies": {
-    "solid-app-router": "^0.4.1",
-    "solid-js": "^1.4.7"
+    "@solidjs/meta": "^0.28.0",
+    "@solidjs/router": "^0.6.0",
+    "solid-js": "^1.6.2",
+    "solid-start": "^0.2.0"
   }
 }

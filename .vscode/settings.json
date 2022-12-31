@@ -3,6 +3,7 @@
     "ajhawkings",
     "automerge",
     "autorun",
+    "esbuild",
     "ghaction",
     "Hawkings",
     "labeled",
@@ -11,6 +12,7 @@
     "nvmrc",
     "pascalgn",
     "plugins",
+    "solidjs",
     "stefanzweifel",
     "unlabeled"
   ],

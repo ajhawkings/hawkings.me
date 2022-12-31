@@ -19,7 +19,7 @@ Hawkings.me is my personal website built using [solid.js](https://github.com/sol
     ```powershell
     # MacOS/Linux
     nvm use
-    # Windows (using PowerShell as admin)
+    # Windows
     nvm install lts
     nvm use lts
     ```

@@ -1,7 +1,6 @@
-import { routes } from '../routes'
-
-import { Link } from 'solid-app-router'
 import { For, Show } from 'solid-js'
+import { A } from 'solid-start'
+import { routes } from '../routes'
 
 export default function NavBar() {
   return (
@@ -11,7 +10,7 @@ export default function NavBar() {
           {(route) => (
             <Show when={!route.navHide}>
               <li>
-                <Link href={route.path}>{route.title}</Link>
+                <A href={route.path}>{route.title}</A>
               </li>
             </Show>
           )}
