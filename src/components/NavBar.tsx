@@ -1,20 +1,12 @@
-import { For, Show } from 'solid-js'
 import { A } from 'solid-start'
-import { routes } from '../routes'
 
 export default function NavBar() {
   return (
     <nav>
       <ul>
-        <For each={routes}>
-          {(route) => (
-            <Show when={!route.navHide}>
-              <li>
-                <A href={route.path}>{route.title}</A>
-              </li>
-            </Show>
-          )}
-        </For>
+        <A href="/">Home</A>
+        <A href="/about">About</A>
+        <A href="/projects">Projects</A>
       </ul>
     </nav>
   )
