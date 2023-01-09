@@ -10,7 +10,7 @@
   "type": "module",
   "devDependencies": {
     "@types/node": "^18.11.9",
-    "esbuild": "^0.16.12",
+    "esbuild": "^0.16.16",
     "eslint": "^8.30.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-solid": "^0.9.1",
