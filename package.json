@@ -11,7 +11,7 @@
   "devDependencies": {
     "@types/node": "^18.14.2",
     "esbuild": "^0.17.9",
-    "eslint": "^8.34.0",
+    "eslint": "^8.35.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-solid": "^0.10.0",
     "postcss": "^8.4.21",
