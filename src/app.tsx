@@ -1,15 +1,15 @@
 // @refresh reload
-import { MetaProvider, Title } from "@solidjs/meta";
-import { Router } from "@solidjs/router";
-import { FileRoutes } from "@solidjs/start";
-import { Suspense } from "solid-js";
-import NavBar from "./components/NavBar";
-import "./root.css";
+import { MetaProvider, Title } from '@solidjs/meta'
+import { Router } from '@solidjs/router'
+import { FileRoutes } from '@solidjs/start'
+import { Suspense } from 'solid-js'
+import NavBar from './components/NavBar'
+import './root.css'
 
 export default function App() {
   return (
     <Router
-      root={props => (
+      root={(props) => (
         <MetaProvider>
           <Title>hawkings.me</Title>
           <NavBar />
@@ -19,5 +19,5 @@ export default function App() {
     >
       <FileRoutes />
     </Router>
-  );
+  )
 }
