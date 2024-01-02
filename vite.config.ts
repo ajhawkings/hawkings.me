@@ -1,9 +1,9 @@
-import { defineConfig } from "@solidjs/start/config";
+import { defineConfig } from '@solidjs/start/config'
 export default defineConfig({
   start: {
     server: {
-      static: true
+      static: true,
     },
-    ssr: false
-  }
-});
+    ssr: false,
+  },
+})
