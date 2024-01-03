@@ -1,4 +1,4 @@
-import { Title } from '@solidjs/meta'
+import { Title } from 'solid-start'
 
 import styles from './home.module.css'
 
