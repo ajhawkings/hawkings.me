@@ -5,7 +5,6 @@ dist
 .vercel
 .netlify
 netlify
-.vinxi
 
 # VS Code specific
 .vscode/*
