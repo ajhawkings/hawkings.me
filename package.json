@@ -2,9 +2,9 @@
   "name": "hawkings.me",
   "version": "0.1.0",
   "scripts": {
-    "dev": "solid-start dev",
-    "build": "solid-start build",
-    "start": "solid-start start",
+    "dev": "vinxi dev",
+    "build": "vinxi build",
+    "start": "vinxi start",
     "format": "prettier --write **/*.{ts,tsx,json,css}"
   },
   "type": "module",
@@ -16,18 +16,17 @@
     "eslint-plugin-solid": "^0.13.1",
     "postcss": "^8.4.32",
     "prettier": "^3.1.1",
-    "solid-start-node": "^0.3.10",
     "typescript": "^5.3.3",
-    "vite": "^4.5.1"
+    "vite": "^5.0.10"
   },
   "dependencies": {
-    "@solidjs/meta": "^0.28.5",
-    "@solidjs/router": "^0.8.2",
-    "solid-js": "^1.7.8",
-    "solid-start": "^0.2.32",
-    "solid-start-vercel": "^0.2.32"
+    "@solidjs/meta": "^0.29.3",
+    "@solidjs/router": "^0.10.5",
+    "@solidjs/start": "^0.4.2",
+    "solid-js": "^1.8.7",
+    "vinxi": "0.0.62"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=18"
   }
 }
