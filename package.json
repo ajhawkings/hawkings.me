@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "scripts": {
     "dev": "vinxi dev",
-    "build": "vinxi build --preset vercel",
+    "build": "vinxi build",
     "start": "vinxi start",
     "format": "prettier --write **/*.{ts,tsx,json,css}"
   },
