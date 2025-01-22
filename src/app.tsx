@@ -7,18 +7,16 @@ import NavBar from './components/NavBar'
 import './root.css'
 
 export default function App() {
-  return 
-    (
-    <Router
-      root={(props) => (
-        <MetaProvider>
-          <Title>hawkings.me</Title>
-          <NavBar />
-          <Suspense>{props.children}</Suspense>
-        </MetaProvider>
-      )}
-    >
-      <FileRoutes />
-    </Router>
-  )
+  return
+  ;<Router
+    root={(props) => (
+      <MetaProvider>
+        <Title>hawkings.me</Title>
+        <NavBar />
+        <Suspense>{props.children}</Suspense>
+      </MetaProvider>
+    )}
+  >
+    <FileRoutes />
+  </Router>
 }
