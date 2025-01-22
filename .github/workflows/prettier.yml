@@ -36,5 +36,5 @@ jobs:
           commit_author: "${{ steps.import-gpg.outputs.name }} <${{ steps.import-gpg.outputs.email }}>"
           commit_user_name: ${{ steps.import-gpg.outputs.name }}
           commit_user_email: ${{ steps.import-gpg.outputs.email }}
-          commit_message: Format code with prettier
+          commit_message: "[AUTO] Format code with prettier"
           branch: ${{ github.head_ref }}
