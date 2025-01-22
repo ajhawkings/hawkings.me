@@ -7,8 +7,8 @@ import NavBar from './components/NavBar'
 import './root.css'
 
 export default function App() {
-  return
-  ;<Router
+  return (
+  <Router
     root={(props) => (
       <MetaProvider>
         <Title>hawkings.me</Title>
@@ -19,4 +19,5 @@ export default function App() {
   >
     <FileRoutes />
   </Router>
+  )
 }
