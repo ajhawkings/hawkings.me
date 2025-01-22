@@ -7,7 +7,8 @@ import NavBar from './components/NavBar'
 import './root.css'
 
 export default function App() {
-  return (
+  return 
+    (
     <Router
       root={(props) => (
         <MetaProvider>
