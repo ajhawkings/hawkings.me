@@ -11,9 +11,9 @@ export default function App() {
     <Router
       root={(props) => (
         <MetaProvider>
-                <Title>hawkings.me</Title>
-                <NavBar />
-                <Suspense>{props.children}</Suspense>
+          <Title>hawkings.me</Title>
+          <NavBar />
+          <Suspense>{props.children}</Suspense>
         </MetaProvider>
       )}
     >
