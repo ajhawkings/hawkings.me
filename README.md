@@ -47,3 +47,26 @@ Please sort imports alphabetically, in three groups separated by new lines:
 - TS functions/data
 - JSX Components
 - Type definitions
+
+## Testing
+
+This project uses [Playwright](https://playwright.dev/) for end-to-end testing.
+
+### Running Tests
+
+```shell
+# Run tests in headless mode
+npm test
+
+# Run tests in UI mode (interactive)
+npm run test:ui
+
+# View HTML test report
+npm run test:report
+```
+
+### Writing Tests
+
+Tests are located in the `tests/` directory. Each test file should be named with the `.spec.ts` extension.
+
+The test configuration is in `playwright.config.ts`. The tests will automatically start the dev server before running.
