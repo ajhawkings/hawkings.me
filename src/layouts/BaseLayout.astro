@@ -9,6 +9,38 @@ interface Props {
 
 const { title, description = 'Personal website of Angus Hawkings' } =
   Astro.props
+
+// Define custom slide animation with directional support
+const customSlide = {
+  forwards: {
+    old: {
+      name: 'slideOutLeft',
+      duration: '0.3s',
+      easing: 'cubic-bezier(0.4, 0, 1, 1)',
+      fillMode: 'both',
+    },
+    new: {
+      name: 'slideInRight',
+      duration: '0.3s',
+      easing: 'cubic-bezier(0, 0, 0.2, 1)',
+      fillMode: 'both',
+    },
+  },
+  backwards: {
+    old: {
+      name: 'slideOutRight',
+      duration: '0.3s',
+      easing: 'cubic-bezier(0.4, 0, 1, 1)',
+      fillMode: 'both',
+    },
+    new: {
+      name: 'slideInLeft',
+      duration: '0.3s',
+      easing: 'cubic-bezier(0, 0, 0.2, 1)',
+      fillMode: 'both',
+    },
+  },
+}
 ---
 
 <!doctype html>
@@ -20,10 +52,38 @@ const { title, description = 'Personal website of Angus Hawkings' } =
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
     <ViewTransitions />
+    <script is:inline>
+      // Define page order based on navbar
+      const pageOrder = {
+        '/': 0,
+        '/about': 1,
+        '/projects': 2,
+      }
+
+      // Override direction detection to consider page order
+      document.addEventListener('astro:before-preparation', (event) => {
+        const fromPath = window.location.pathname
+        const toPath = new URL(event.to).pathname
+
+        const fromIndex = pageOrder[fromPath]
+        const toIndex = pageOrder[toPath]
+
+        // Set direction based on page order if both pages are in the navbar
+        if (fromIndex !== undefined && toIndex !== undefined) {
+          if (toIndex < fromIndex) {
+            // Going to a page to the left - set backwards
+            event.direction = 'back'
+          } else if (toIndex > fromIndex) {
+            // Going to a page to the right - set forwards  
+            event.direction = 'forward'
+          }
+        }
+      })
+    </script>
   </head>
   <body>
     <NavBar />
-    <main transition:animate="slide">
+    <main transition:animate={customSlide}>
       <slot />
     </main>
     <style is:global>
@@ -89,6 +149,31 @@ const { title, description = 'Personal website of Angus Hawkings' } =
       p {
         margin-bottom: 1rem;
         color: var(--color-text-muted);
+      }
+
+      /* Custom slide animations */
+      @keyframes slideOutLeft {
+        to {
+          transform: translateX(-100%);
+        }
+      }
+
+      @keyframes slideInRight {
+        from {
+          transform: translateX(100%);
+        }
+      }
+
+      @keyframes slideOutRight {
+        to {
+          transform: translateX(100%);
+        }
+      }
+
+      @keyframes slideInLeft {
+        from {
+          transform: translateX(-100%);
+        }
       }
     </style>
   </body>
