@@ -1,6 +1,6 @@
 {
   "main": "dist/_worker.js/index.js",
-  "name": "my-astro-app",
+  "name": "personal-website",
   "compatibility_date": "2026-01-27",
   "compatibility_flags": [
     "nodejs_compat",
