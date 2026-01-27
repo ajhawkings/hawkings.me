@@ -1,0 +1,46 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro'
+
+Astro.response.status = 404
+---
+
+<BaseLayout title="404 | hawkings.me" description="Page not found">
+  <div class="error-page">
+    <h1>404</h1>
+    <p>Not found 😔</p>
+    <a href="/">Go back home</a>
+  </div>
+</BaseLayout>
+
+<style>
+  .error-page {
+    padding: 4rem 0;
+    text-align: center;
+  }
+
+  h1 {
+    font-size: 6rem;
+    margin-bottom: 1rem;
+    color: var(--color-accent);
+  }
+
+  p {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  a {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background: var(--color-accent);
+    color: var(--color-bg);
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: background 0.2s ease;
+  }
+
+  a:hover {
+    background: var(--color-accent-hover);
+    text-decoration: none;
+  }
+</style>

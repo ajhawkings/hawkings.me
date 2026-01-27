@@ -1,11 +1,9 @@
-# solidjs
-dist
-.solid
-.output
-.vercel
-.netlify
-netlify
-.vinxi
+# astro
+dist/
+.astro/
+.output/
+.vercel/
+.wrangler/
 
 # VS Code specific
 .vscode/*

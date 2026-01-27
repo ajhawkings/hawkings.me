@@ -1,0 +1,38 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro'
+---
+
+<BaseLayout title="Home | hawkings.me">
+  <div class="hero">
+    <h1>Welcome to hawkings.me</h1>
+    <p class="intro">
+      As you can probably see, it is under construction. CSS is a luxury,
+      anyway...
+    </p>
+    <p>
+      In the meantime please check out my <a
+        href="https://github.com/ajhawkings">GitHub profile</a
+      >. It has info on what I'm up to!
+    </p>
+  </div>
+</BaseLayout>
+
+<style>
+  .hero {
+    padding: 2rem 0;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1.5rem;
+  }
+
+  .intro {
+    font-size: 1.125rem;
+    color: var(--color-text);
+  }
+</style>

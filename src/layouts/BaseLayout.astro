@@ -1,0 +1,93 @@
+---
+import NavBar from '~/components/NavBar.astro'
+
+interface Props {
+  title: string
+  description?: string
+}
+
+const { title, description = 'Personal website of Angus Hawkings' } =
+  Astro.props
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <NavBar />
+    <main>
+      <slot />
+    </main>
+    <style is:global>
+      :root {
+        --color-bg: #0f0f0f;
+        --color-text: #e4e4e7;
+        --color-text-muted: #a1a1aa;
+        --color-accent: #3b82f6;
+        --color-accent-hover: #60a5fa;
+        --spacing-nav: 1rem;
+        --spacing-content: 2rem;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        font-family:
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          'Segoe UI',
+          Roboto,
+          'Helvetica Neue',
+          Arial,
+          sans-serif;
+        background-color: var(--color-bg);
+        color: var(--color-text);
+        line-height: 1.6;
+      }
+
+      body {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: var(--spacing-content);
+      }
+
+      main {
+        margin-top: var(--spacing-content);
+      }
+
+      a {
+        color: var(--color-accent);
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+
+      a:hover {
+        color: var(--color-accent-hover);
+        text-decoration: underline;
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin-bottom: 1rem;
+        line-height: 1.2;
+      }
+
+      p {
+        margin-bottom: 1rem;
+        color: var(--color-text-muted);
+      }
+    </style>
+  </body>
+</html>
