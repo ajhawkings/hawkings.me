@@ -12,6 +12,7 @@ const { title, description = 'Personal website of Angus Hawkings' } =
 
 // Animation constants for consistency
 const SLIDE_DURATION = '0.3s'
+const SLIDE_DELAY = '0.1s'
 const SLIDE_EASING = 'cubic-bezier(0.4, 0, 1, 1)'
 const SLIDE_EASING_IN = 'cubic-bezier(0, 0, 0.2, 1)'
 
@@ -29,6 +30,7 @@ const customSlide = {
       duration: SLIDE_DURATION,
       easing: SLIDE_EASING_IN,
       fillMode: 'both',
+      delay: SLIDE_DELAY,
     },
   },
   backwards: {
@@ -43,6 +45,7 @@ const customSlide = {
       duration: SLIDE_DURATION,
       easing: SLIDE_EASING_IN,
       fillMode: 'both',
+      delay: SLIDE_DELAY,
     },
   },
 }
