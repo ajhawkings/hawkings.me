@@ -20,18 +20,24 @@ const { title, description = 'Personal website of Angus Hawkings' } =
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
     <ViewTransitions />
-    <script>
+    <script is:inline>
       // Define page order based on navbar
-      const pageOrder: Record<string, number> = {
+      const pageOrder = {
         '/': 0,
         '/about': 1,
         '/projects': 2,
       }
 
-      // Track navigation direction
-      document.addEventListener('astro:before-preparation', (event: Event) => {
+      // Prevent transition when clicking on current page
+      document.addEventListener('astro:before-preparation', (event) => {
         const fromPath = window.location.pathname
-        const toPath = new URL((event as any).to).pathname
+        const toPath = new URL(event.to).pathname
+
+        // Cancel transition if navigating to the same page
+        if (fromPath === toPath) {
+          event.preventDefault()
+          return
+        }
 
         const fromIndex = pageOrder[fromPath] ?? -1
         const toIndex = pageOrder[toPath] ?? -1
