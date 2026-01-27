@@ -104,18 +104,6 @@ const { title, description = 'Personal website of Angus Hawkings' } =
         }
       }
 
-      @keyframes slide-from-left {
-        from {
-          transform: translateX(-100%);
-        }
-      }
-
-      @keyframes slide-to-right {
-        to {
-          transform: translateX(100%);
-        }
-      }
-
       ::view-transition-old(root) {
         animation:
           90ms cubic-bezier(0.4, 0, 1, 1) both slide-to-left,
