@@ -22,6 +22,7 @@ Personal website for Angus Hawkings (hawkings.me), built with Astro 5 and deploy
 **Path Alias**: `~/` maps to `./src/` (configured in tsconfig.json)
 
 **Content Collections** (`src/content/config.ts`):
+
 - `projects` - Portfolio projects with title, description, url, github, publishDate, tags, featured
 - `blog` - Blog posts with title, description, publishDate, updatedDate, tags, draft
 
