@@ -1,6 +1,6 @@
 # hawkings.me
 
-Hawkings.me is my personal website built using [solid.js](https://github.com/solidjs/solid) and deployed using [Vercel](https://vercel.com)
+Hawkings.me is my personal website built with [Astro](https://astro.build) and deployed to [Cloudflare Workers](https://workers.cloudflare.com)
 
 ## Development
 
