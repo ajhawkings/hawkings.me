@@ -5,6 +5,11 @@ dist/
 .vercel/
 .wrangler/
 
+# Playwright
+test-results/
+playwright-report/
+playwright/.cache/
+
 # VS Code specific
 .vscode/*
 !.vscode/settings.json

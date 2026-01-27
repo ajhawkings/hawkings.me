@@ -6,7 +6,10 @@
     "dev": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "format": "prettier --write **/*.{astro,ts,tsx,json,css,md,mdx}"
+    "format": "prettier --write **/*.{astro,ts,tsx,json,css,md,mdx}",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:report": "playwright show-report"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.6",
@@ -15,6 +18,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
+    "@playwright/test": "^1.58.0",
     "@types/node": "^25.0.10",
     "@typescript-eslint/parser": "^8.54.0",
     "eslint": "^9.39.2",
