@@ -20,38 +20,6 @@ const { title, description = 'Personal website of Angus Hawkings' } =
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
     <ViewTransitions />
-    <script is:inline>
-      // Define page order based on navbar
-      const pageOrder = {
-        '/': 0,
-        '/about': 1,
-        '/projects': 2,
-      }
-
-      // Prevent transition when clicking on current page
-      document.addEventListener('astro:before-preparation', (event) => {
-        const fromPath = window.location.pathname
-        const toPath = new URL(event.to).pathname
-
-        // Cancel transition if navigating to the same page
-        if (fromPath === toPath) {
-          event.preventDefault()
-          return
-        }
-
-        const fromIndex = pageOrder[fromPath] ?? -1
-        const toIndex = pageOrder[toPath] ?? -1
-
-        // Set direction as forward or backward
-        if (fromIndex !== -1 && toIndex !== -1) {
-          if (toIndex > fromIndex) {
-            document.documentElement.dataset.direction = 'forward'
-          } else if (toIndex < fromIndex) {
-            document.documentElement.dataset.direction = 'backward'
-          }
-        }
-      })
-    </script>
   </head>
   <body>
     <NavBar />
@@ -121,82 +89,6 @@ const { title, description = 'Personal website of Angus Hawkings' } =
       p {
         margin-bottom: 1rem;
         color: var(--color-text-muted);
-      }
-
-      /* View Transitions - Sideways slide animation */
-      @keyframes slide-from-right {
-        from {
-          transform: translateX(100%);
-        }
-      }
-
-      @keyframes slide-to-left {
-        to {
-          transform: translateX(-100%);
-        }
-      }
-
-      @keyframes slide-from-left {
-        from {
-          transform: translateX(-100%);
-        }
-      }
-
-      @keyframes slide-to-right {
-        to {
-          transform: translateX(100%);
-        }
-      }
-
-      /* Forward navigation: slide right to left */
-      html[data-direction='forward'] ::view-transition-old(slide) {
-        animation:
-          90ms cubic-bezier(0.4, 0, 1, 1) both slide-to-left,
-          300ms cubic-bezier(0.4, 0, 0.2, 1) both fade-out;
-      }
-
-      html[data-direction='forward'] ::view-transition-new(slide) {
-        animation:
-          210ms cubic-bezier(0, 0, 0.2, 1) 90ms both slide-from-right,
-          300ms cubic-bezier(0.4, 0, 0.2, 1) both fade-in;
-      }
-
-      /* Backward navigation: slide left to right */
-      html[data-direction='backward'] ::view-transition-old(slide) {
-        animation:
-          90ms cubic-bezier(0.4, 0, 1, 1) both slide-to-right,
-          300ms cubic-bezier(0.4, 0, 0.2, 1) both fade-out;
-      }
-
-      html[data-direction='backward'] ::view-transition-new(slide) {
-        animation:
-          210ms cubic-bezier(0, 0, 0.2, 1) 90ms both slide-from-left,
-          300ms cubic-bezier(0.4, 0, 0.2, 1) both fade-in;
-      }
-
-      /* Default: forward direction */
-      ::view-transition-old(slide) {
-        animation:
-          90ms cubic-bezier(0.4, 0, 1, 1) both slide-to-left,
-          300ms cubic-bezier(0.4, 0, 0.2, 1) both fade-out;
-      }
-
-      ::view-transition-new(slide) {
-        animation:
-          210ms cubic-bezier(0, 0, 0.2, 1) 90ms both slide-from-right,
-          300ms cubic-bezier(0.4, 0, 0.2, 1) both fade-in;
-      }
-
-      @keyframes fade-in {
-        from {
-          opacity: 0;
-        }
-      }
-
-      @keyframes fade-out {
-        to {
-          opacity: 0;
-        }
       }
     </style>
   </body>
