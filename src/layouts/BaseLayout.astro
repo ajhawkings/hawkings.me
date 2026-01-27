@@ -10,33 +10,38 @@ interface Props {
 const { title, description = 'Personal website of Angus Hawkings' } =
   Astro.props
 
+// Animation constants for consistency
+const SLIDE_DURATION = '0.3s'
+const SLIDE_EASING = 'cubic-bezier(0.4, 0, 1, 1)'
+const SLIDE_EASING_IN = 'cubic-bezier(0, 0, 0.2, 1)'
+
 // Define custom slide animation with directional support
 const customSlide = {
   forwards: {
     old: {
       name: 'slideOutLeft',
-      duration: '0.3s',
-      easing: 'cubic-bezier(0.4, 0, 1, 1)',
+      duration: SLIDE_DURATION,
+      easing: SLIDE_EASING,
       fillMode: 'both',
     },
     new: {
       name: 'slideInRight',
-      duration: '0.3s',
-      easing: 'cubic-bezier(0, 0, 0.2, 1)',
+      duration: SLIDE_DURATION,
+      easing: SLIDE_EASING_IN,
       fillMode: 'both',
     },
   },
   backwards: {
     old: {
       name: 'slideOutRight',
-      duration: '0.3s',
-      easing: 'cubic-bezier(0.4, 0, 1, 1)',
+      duration: SLIDE_DURATION,
+      easing: SLIDE_EASING,
       fillMode: 'both',
     },
     new: {
       name: 'slideInLeft',
-      duration: '0.3s',
-      easing: 'cubic-bezier(0, 0, 0.2, 1)',
+      duration: SLIDE_DURATION,
+      easing: SLIDE_EASING_IN,
       fillMode: 'both',
     },
   },
