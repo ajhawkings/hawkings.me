@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Personal website for Angus Hawkings (hawkings.me), built with Astro 5 and deployed to Cloudflare Pages.
+Personal website for Angus Hawkings (hawkings.me), built with Astro 5 and deployed to Cloudflare Workers.
 
 ## Commands
 
@@ -17,7 +17,7 @@ Personal website for Angus Hawkings (hawkings.me), built with Astro 5 and deploy
 
 **Framework**: Astro 5 with server-side rendering (`output: 'server'`)
 
-**Deployment**: Cloudflare Pages via `@astrojs/cloudflare` adapter
+**Deployment**: Cloudflare Workers via `@astrojs/cloudflare` adapter
 
 **Path Alias**: `~/` maps to `./src/` (configured in tsconfig.json)
 
