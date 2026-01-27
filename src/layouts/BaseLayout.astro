@@ -29,18 +29,20 @@ const { title, description = 'Personal website of Angus Hawkings' } =
       }
 
       // Track navigation direction
-      document.addEventListener('astro:before-preparation', (event) => {
+      document.addEventListener('astro:before-preparation', (event: Event) => {
         const fromPath = window.location.pathname
         const toPath = new URL((event as any).to).pathname
 
-        const fromIndex = pageOrder[fromPath] ?? 1
-        const toIndex = pageOrder[toPath] ?? 1
+        const fromIndex = pageOrder[fromPath] ?? -1
+        const toIndex = pageOrder[toPath] ?? -1
 
         // Set direction as forward or backward
-        if (toIndex > fromIndex) {
-          document.documentElement.dataset.direction = 'forward'
-        } else if (toIndex < fromIndex) {
-          document.documentElement.dataset.direction = 'backward'
+        if (fromIndex !== -1 && toIndex !== -1) {
+          if (toIndex > fromIndex) {
+            document.documentElement.dataset.direction = 'forward'
+          } else if (toIndex < fromIndex) {
+            document.documentElement.dataset.direction = 'backward'
+          }
         }
       })
     </script>
