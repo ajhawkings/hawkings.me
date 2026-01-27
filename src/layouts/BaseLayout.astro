@@ -1,4 +1,5 @@
 ---
+import { ViewTransitions } from 'astro:transitions'
 import NavBar from '~/components/NavBar.astro'
 
 interface Props {
@@ -8,6 +9,46 @@ interface Props {
 
 const { title, description = 'Personal website of Angus Hawkings' } =
   Astro.props
+
+// Animation constants for consistency
+const SLIDE_DURATION = '0.3s'
+const SLIDE_DELAY = '0.1s'
+const SLIDE_EASING = 'cubic-bezier(0.4, 0, 1, 1)'
+const SLIDE_EASING_IN = 'cubic-bezier(0, 0, 0.2, 1)'
+
+// Define custom slide animation with directional support
+const customSlide = {
+  forwards: {
+    old: {
+      name: 'slideOutLeft',
+      duration: SLIDE_DURATION,
+      easing: SLIDE_EASING,
+      fillMode: 'both',
+    },
+    new: {
+      name: 'slideInRight',
+      duration: SLIDE_DURATION,
+      easing: SLIDE_EASING_IN,
+      fillMode: 'both',
+      delay: SLIDE_DELAY,
+    },
+  },
+  backwards: {
+    old: {
+      name: 'slideOutRight',
+      duration: SLIDE_DURATION,
+      easing: SLIDE_EASING,
+      fillMode: 'both',
+    },
+    new: {
+      name: 'slideInLeft',
+      duration: SLIDE_DURATION,
+      easing: SLIDE_EASING_IN,
+      fillMode: 'both',
+      delay: SLIDE_DELAY,
+    },
+  },
+}
 ---
 
 <!doctype html>
@@ -18,10 +59,39 @@ const { title, description = 'Personal website of Angus Hawkings' } =
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
+    <ViewTransitions />
+    <script is:inline>
+      // Define page order based on navbar
+      const pageOrder = {
+        '/': 0,
+        '/about': 1,
+        '/projects': 2,
+      }
+
+      // Override direction detection to consider page order
+      document.addEventListener('astro:before-preparation', (event) => {
+        const fromPath = window.location.pathname
+        const toPath = new URL(event.to).pathname
+
+        const fromIndex = pageOrder[fromPath]
+        const toIndex = pageOrder[toPath]
+
+        // Set direction based on page order if both pages are in the navbar
+        if (fromIndex !== undefined && toIndex !== undefined) {
+          if (toIndex < fromIndex) {
+            // Going to a page to the left - set backwards
+            event.direction = 'back'
+          } else if (toIndex > fromIndex) {
+            // Going to a page to the right - set forwards
+            event.direction = 'forward'
+          }
+        }
+      })
+    </script>
   </head>
   <body>
     <NavBar />
-    <main>
+    <main transition:animate={customSlide}>
       <slot />
     </main>
     <style is:global>
@@ -87,6 +157,31 @@ const { title, description = 'Personal website of Angus Hawkings' } =
       p {
         margin-bottom: 1rem;
         color: var(--color-text-muted);
+      }
+
+      /* Custom slide animations */
+      @keyframes slideOutLeft {
+        to {
+          transform: translateX(-100vw);
+        }
+      }
+
+      @keyframes slideInRight {
+        from {
+          transform: translateX(100vw);
+        }
+      }
+
+      @keyframes slideOutRight {
+        to {
+          transform: translateX(100vw);
+        }
+      }
+
+      @keyframes slideInLeft {
+        from {
+          transform: translateX(-100vw);
+        }
       }
     </style>
   </body>
