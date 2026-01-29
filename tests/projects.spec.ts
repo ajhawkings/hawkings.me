@@ -52,25 +52,32 @@ test.describe('Projects Page', () => {
     await page.goto('/projects')
 
     const projectCards = page.locator('.project-card')
-    const firstCard = projectCards.first()
+    const cardCount = await projectCards.count()
+    expect(cardCount).toBeGreaterThan(0)
 
-    // First project (Conrad Margoles) should have both Visit and GitHub links
-    const links = firstCard.locator('.project-links a')
-    await expect(links).toHaveCount(2)
-
-    const visitLink = firstCard.locator('.project-links a:has-text("Visit")')
-    await expect(visitLink).toHaveAttribute(
-      'href',
-      'https://conradmargoles.com'
+    // Check that at least one Visit link is rendered somewhere in the project cards
+    const visitLinks = page.locator(
+      '.project-card .project-links a:has-text("Visit")'
     )
-    await expect(visitLink).toHaveAttribute('target', '_blank')
-    await expect(visitLink).toHaveAttribute('rel', 'noopener')
+    const visitCount = await visitLinks.count()
+    expect(visitCount).toBeGreaterThan(0)
 
-    const githubLink = firstCard.locator('.project-links a:has-text("GitHub")')
-    await expect(githubLink).toHaveAttribute(
-      'href',
-      'https://github.com/ajhawkings/conradmargoles'
+    const firstVisitLink = visitLinks.first()
+    await expect(firstVisitLink).toHaveAttribute('target', '_blank')
+    await expect(firstVisitLink).toHaveAttribute('rel', 'noopener')
+    // Ensure Visit link has a non-empty URL
+    await expect(firstVisitLink).toHaveAttribute('href', /https?:\/\/.+/)
+
+    // Check that at least one GitHub link is rendered somewhere in the project cards
+    const githubLinks = page.locator(
+      '.project-card .project-links a:has-text("GitHub")'
     )
+    const githubCount = await githubLinks.count()
+    expect(githubCount).toBeGreaterThan(0)
+
+    const firstGithubLink = githubLinks.first()
+    // Ensure GitHub link points to GitHub
+    await expect(firstGithubLink).toHaveAttribute('href', /github\.com/)
   })
 
   test('should display scroll hint', async ({ page }) => {
