@@ -63,7 +63,17 @@ import { projects } from '~/data/projects'
 </BaseLayout>
 
 <script is:inline>
+  // Store cleanup state to prevent memory leaks
+  let cleanupProjectWheel = null
+  let animationFrameId = null
+
   function initProjectWheel() {
+    // Clean up any existing event listeners and animations before re-initializing
+    if (cleanupProjectWheel) {
+      cleanupProjectWheel()
+      cleanupProjectWheel = null
+    }
+
     const wheel = document.getElementById('wheel')
     const cards = document.querySelectorAll('.project-card')
     if (!wheel || cards.length === 0) return
@@ -105,10 +115,11 @@ import { projects } from '~/data/projects'
       })
 
       if (Math.abs(diff) > 0.1) {
-        requestAnimationFrame(updateWheel)
+        animationFrameId = requestAnimationFrame(updateWheel)
       } else {
         currentRotation = targetRotation
         isAnimating = false
+        animationFrameId = null
       }
     }
 
@@ -125,7 +136,7 @@ import { projects } from '~/data/projects'
 
         if (!isAnimating) {
           isAnimating = true
-          requestAnimationFrame(updateWheel)
+          animationFrameId = requestAnimationFrame(updateWheel)
         }
       }
     }
@@ -154,7 +165,7 @@ import { projects } from '~/data/projects'
 
         if (!isAnimating) {
           isAnimating = true
-          requestAnimationFrame(updateWheel)
+          animationFrameId = requestAnimationFrame(updateWheel)
         }
       }
     }
@@ -168,6 +179,20 @@ import { projects } from '~/data/projects'
       container.addEventListener('touchmove', handleTouchMove, {
         passive: false,
       })
+
+      // Store cleanup function to remove event listeners and cancel animations
+      cleanupProjectWheel = () => {
+        // Cancel any pending animation frames
+        if (animationFrameId !== null) {
+          cancelAnimationFrame(animationFrameId)
+          animationFrameId = null
+        }
+
+        // Remove event listeners
+        container.removeEventListener('wheel', handleScroll)
+        container.removeEventListener('touchstart', handleTouchStart)
+        container.removeEventListener('touchmove', handleTouchMove)
+      }
     }
 
     updateWheel()
