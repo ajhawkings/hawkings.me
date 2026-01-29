@@ -8,6 +8,7 @@ jobs:
       - name: "Clone repo"
         uses: actions/checkout@v3
         with:
+          GITHUB_TOKEN: ${{ secrets.REPO_SCOPED_TOKEN }}
           ref: ${{ github.head_ref }}
       - name: Use Node.js
         uses: actions/setup-node@v3.6.0
@@ -32,8 +33,6 @@ jobs:
           git_commit_gpgsign: true
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
-        env:
-          GITHUB_TOKEN: ${{ secrets.REPO_SCOPED_TOKEN }}
         with:
           commit_author: "${{ steps.import-gpg.outputs.name }} <${{ steps.import-gpg.outputs.email }}>"
           commit_user_name: ${{ steps.import-gpg.outputs.name }}
