@@ -125,7 +125,9 @@ import { projects } from '~/data/projects'
 
     function handleScroll(event) {
       event.preventDefault()
-      hideScrollHint()
+      if (!hasInteracted) {
+        hideScrollHint()
+      }
       accumulatedDelta += event.deltaY
 
       if (Math.abs(accumulatedDelta) >= scrollThreshold) {
@@ -152,7 +154,9 @@ import { projects } from '~/data/projects'
 
     function handleTouchMove(event) {
       event.preventDefault()
-      hideScrollHint()
+      if (!hasInteracted) {
+        hideScrollHint()
+      }
       const touchY = event.touches[0].clientY
       const delta = touchStartY - touchY
       touchAccumulated += delta
