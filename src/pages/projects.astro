@@ -87,6 +87,17 @@ import { projects } from '~/data/projects'
     let isAnimating = false
     let accumulatedDelta = 0
     const scrollThreshold = 320
+    let hasInteracted = false
+
+    function hideScrollHint() {
+      if (!hasInteracted) {
+        hasInteracted = true
+        const scrollHint = document.querySelector('.scroll-hint')
+        if (scrollHint) {
+          scrollHint.classList.add('hidden')
+        }
+      }
+    }
 
     function updateWheel() {
       if (!wheel) return
@@ -125,6 +136,9 @@ import { projects } from '~/data/projects'
 
     function handleScroll(event) {
       event.preventDefault()
+      if (!hasInteracted) {
+        hideScrollHint()
+      }
       accumulatedDelta += event.deltaY
 
       if (Math.abs(accumulatedDelta) >= scrollThreshold) {
@@ -151,6 +165,9 @@ import { projects } from '~/data/projects'
 
     function handleTouchMove(event) {
       event.preventDefault()
+      if (!hasInteracted) {
+        hideScrollHint()
+      }
       const touchY = event.touches[0].clientY
       const delta = touchStartY - touchY
       touchAccumulated += delta
@@ -321,6 +338,13 @@ import { projects } from '~/data/projects'
     color: var(--color-text-muted);
     font-size: 0.875rem;
     animation: bounce 2s infinite;
+    opacity: 1;
+    transition: opacity 0.5s ease-out;
+  }
+
+  .scroll-hint.hidden {
+    opacity: 0;
+    pointer-events: none;
   }
 
   .scroll-hint svg {
