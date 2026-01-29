@@ -6,8 +6,7 @@ export interface Project {
   tags: string[]
 }
 
-export const projects: Project[] = 
-[
+export const projects: Project[] = [
   {
     title: 'Conrad Margoles Architects',
     description:
