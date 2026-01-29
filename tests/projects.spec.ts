@@ -18,7 +18,9 @@ test.describe('Projects Page', () => {
     await expect(wheel).toBeVisible()
   })
 
-  test('should display project cards with correct structure', async ({ page }) => {
+  test('should display project cards with correct structure', async ({
+    page,
+  }) => {
     await page.goto('/projects')
 
     // Check that project cards exist
@@ -57,12 +59,18 @@ test.describe('Projects Page', () => {
     await expect(links).toHaveCount(2)
 
     const visitLink = firstCard.locator('.project-links a:has-text("Visit")')
-    await expect(visitLink).toHaveAttribute('href', 'https://conradmargoles.com')
+    await expect(visitLink).toHaveAttribute(
+      'href',
+      'https://conradmargoles.com'
+    )
     await expect(visitLink).toHaveAttribute('target', '_blank')
     await expect(visitLink).toHaveAttribute('rel', 'noopener')
 
     const githubLink = firstCard.locator('.project-links a:has-text("GitHub")')
-    await expect(githubLink).toHaveAttribute('href', 'https://github.com/ajhawkings/conradmargoles')
+    await expect(githubLink).toHaveAttribute(
+      'href',
+      'https://github.com/ajhawkings/conradmargoles'
+    )
   })
 
   test('should display scroll hint', async ({ page }) => {
@@ -83,8 +91,8 @@ test.describe('Projects Page', () => {
     const wheelContainer = page.locator('.wheel-container')
 
     // Get initial rotation
-    const initialTransform = await wheel.evaluate((el) =>
-      window.getComputedStyle(el).transform
+    const initialTransform = await wheel.evaluate(
+      (el) => window.getComputedStyle(el).transform
     )
 
     // Scroll down on the wheel container to trigger rotation
@@ -92,7 +100,7 @@ test.describe('Projects Page', () => {
       const wheelEvent = new WheelEvent('wheel', {
         deltaY: 500, // Enough to exceed scrollThreshold of 320
         bubbles: true,
-        cancelable: true
+        cancelable: true,
       })
       el.dispatchEvent(wheelEvent)
     })
@@ -101,8 +109,8 @@ test.describe('Projects Page', () => {
     await page.waitForTimeout(200)
 
     // Get new rotation - should be different
-    const newTransform = await wheel.evaluate((el) =>
-      window.getComputedStyle(el).transform
+    const newTransform = await wheel.evaluate(
+      (el) => window.getComputedStyle(el).transform
     )
 
     expect(newTransform).not.toBe(initialTransform)
@@ -130,15 +138,17 @@ test.describe('Projects Page', () => {
     const firstCard = projectCards.first()
 
     // The first card should be visible (opacity near 1) at initial position
-    const opacity = await firstCard.evaluate((el) =>
-      window.getComputedStyle(el).opacity
+    const opacity = await firstCard.evaluate(
+      (el) => window.getComputedStyle(el).opacity
     )
 
     // Should be highly visible (opacity close to 1)
     expect(parseFloat(opacity)).toBeGreaterThan(0.8)
   })
 
-  test('should have pointer-events enabled only for visible cards', async ({ page }) => {
+  test('should have pointer-events enabled only for visible cards', async ({
+    page,
+  }) => {
     await page.goto('/projects')
 
     // Wait for initialization
@@ -152,8 +162,8 @@ test.describe('Projects Page', () => {
       const opacity = await card.evaluate((el) =>
         parseFloat(window.getComputedStyle(el).opacity)
       )
-      const pointerEvents = await card.evaluate((el) =>
-        window.getComputedStyle(el).pointerEvents
+      const pointerEvents = await card.evaluate(
+        (el) => window.getComputedStyle(el).pointerEvents
       )
 
       // Cards with opacity > 0.5 should have pointer-events: auto
