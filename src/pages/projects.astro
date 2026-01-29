@@ -65,16 +65,13 @@ import { projects } from '~/data/projects'
 <script is:inline>
   // Store cleanup state to prevent memory leaks
   let cleanupProjectWheel = null
-  let currentContainer = null
-  let currentHandlers = null
+  let animationFrameId = null
 
   function initProjectWheel() {
-    // Clean up any existing event listeners before re-initializing
+    // Clean up any existing event listeners and animations before re-initializing
     if (cleanupProjectWheel) {
       cleanupProjectWheel()
       cleanupProjectWheel = null
-      currentContainer = null
-      currentHandlers = null
     }
 
     const wheel = document.getElementById('wheel')
@@ -118,10 +115,11 @@ import { projects } from '~/data/projects'
       })
 
       if (Math.abs(diff) > 0.1) {
-        requestAnimationFrame(updateWheel)
+        animationFrameId = requestAnimationFrame(updateWheel)
       } else {
         currentRotation = targetRotation
         isAnimating = false
+        animationFrameId = null
       }
     }
 
@@ -138,7 +136,7 @@ import { projects } from '~/data/projects'
 
         if (!isAnimating) {
           isAnimating = true
-          requestAnimationFrame(updateWheel)
+          animationFrameId = requestAnimationFrame(updateWheel)
         }
       }
     }
@@ -167,21 +165,13 @@ import { projects } from '~/data/projects'
 
         if (!isAnimating) {
           isAnimating = true
-          requestAnimationFrame(updateWheel)
+          animationFrameId = requestAnimationFrame(updateWheel)
         }
       }
     }
 
     const container = document.querySelector('.wheel-container')
     if (container) {
-      // Store handlers and container reference for cleanup
-      currentHandlers = {
-        handleScroll,
-        handleTouchStart,
-        handleTouchMove,
-      }
-      currentContainer = container
-
       container.addEventListener('wheel', handleScroll, { passive: false })
       container.addEventListener('touchstart', handleTouchStart, {
         passive: true,
@@ -190,22 +180,18 @@ import { projects } from '~/data/projects'
         passive: false,
       })
 
-      // Store cleanup function to remove event listeners
+      // Store cleanup function to remove event listeners and cancel animations
       cleanupProjectWheel = () => {
-        if (currentContainer && currentHandlers) {
-          currentContainer.removeEventListener(
-            'wheel',
-            currentHandlers.handleScroll
-          )
-          currentContainer.removeEventListener(
-            'touchstart',
-            currentHandlers.handleTouchStart
-          )
-          currentContainer.removeEventListener(
-            'touchmove',
-            currentHandlers.handleTouchMove
-          )
+        // Cancel any pending animation frames
+        if (animationFrameId !== null) {
+          cancelAnimationFrame(animationFrameId)
+          animationFrameId = null
         }
+
+        // Remove event listeners
+        container.removeEventListener('wheel', handleScroll)
+        container.removeEventListener('touchstart', handleTouchStart)
+        container.removeEventListener('touchmove', handleTouchMove)
       }
     }
 
