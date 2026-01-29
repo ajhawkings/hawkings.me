@@ -8,7 +8,7 @@ jobs:
       - name: "Clone repo"
         uses: actions/checkout@v5
         with:
-          GITHUB_TOKEN: ${{ secrets.REPO_SCOPED_TOKEN }}
+          token: ${{ secrets.REPO_SCOPED_TOKEN }}
           ref: ${{ github.head_ref }}
       - name: Use Node.js
         uses: actions/setup-node@v3.6.0
