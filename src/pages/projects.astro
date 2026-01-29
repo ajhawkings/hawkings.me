@@ -63,7 +63,16 @@ import { projects } from '~/data/projects'
 </BaseLayout>
 
 <script is:inline>
+  // Store cleanup function and current state to prevent memory leaks
+  let cleanupProjectWheel = null
+
   function initProjectWheel() {
+    // Clean up any existing event listeners before re-initializing
+    if (cleanupProjectWheel) {
+      cleanupProjectWheel()
+      cleanupProjectWheel = null
+    }
+
     const wheel = document.getElementById('wheel')
     const cards = document.querySelectorAll('.project-card')
     if (!wheel || cards.length === 0) return
@@ -168,6 +177,13 @@ import { projects } from '~/data/projects'
       container.addEventListener('touchmove', handleTouchMove, {
         passive: false,
       })
+
+      // Store cleanup function to remove event listeners
+      cleanupProjectWheel = () => {
+        container.removeEventListener('wheel', handleScroll)
+        container.removeEventListener('touchstart', handleTouchStart)
+        container.removeEventListener('touchmove', handleTouchMove)
+      }
     }
 
     updateWheel()
