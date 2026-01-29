@@ -1,24 +1,326 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro'
+import { projects } from '~/data/projects'
 ---
 
 <BaseLayout
   title="Projects | hawkings.me"
   description="Projects by Angus Hawkings"
 >
-  <article>
-    <h1>Projects</h1>
-    <p>My projects.</p>
-  </article>
+  <div class="projects-page">
+    <div class="wheel-container">
+      <div class="wheel" id="wheel">
+        {
+          projects.map((project, index) => (
+            <div class="project-card" data-index={index}>
+              <h2 class="project-title">{project.title}</h2>
+              <p class="project-description">{project.description}</p>
+              <div class="project-tags">
+                {project.tags.slice(0, 3).map((tag) => (
+                  <span class="tag">{tag}</span>
+                ))}
+              </div>
+              <div class="project-links">
+                {project.url && (
+                  <a href={project.url} target="_blank" rel="noopener">
+                    Visit
+                  </a>
+                )}
+                {project.github && (
+                  <a href={project.github} target="_blank" rel="noopener">
+                    GitHub
+                  </a>
+                )}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+      <div class="scroll-hint">
+        <span>Scroll to explore</span>
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M12 5v14M5 12l7 7 7-7"></path>
+        </svg>
+      </div>
+    </div>
+  </div>
 </BaseLayout>
 
-<style>
-  article {
-    padding: 1rem 0;
+<script is:inline>
+  function initProjectWheel() {
+    const wheel = document.getElementById('wheel')
+    const cards = document.querySelectorAll('.project-card')
+    if (!wheel || cards.length === 0) return
+
+    const totalProjects = cards.length
+    const anglePerProject = 360 / totalProjects
+
+    let currentRotation = 0
+    let targetRotation = 0
+    let currentIndex = 0
+    let isAnimating = false
+    let accumulatedDelta = 0
+    const scrollThreshold = 320
+
+    function updateWheel() {
+      if (!wheel) return
+
+      const diff = targetRotation - currentRotation
+      currentRotation += diff * 0.1
+
+      wheel.style.transform = `rotate(${currentRotation}deg)`
+
+      cards.forEach((card, index) => {
+        const cardAngle =
+          (index * anglePerProject + currentRotation + 360) % 360
+        const normalizedAngle = cardAngle > 180 ? cardAngle - 360 : cardAngle
+
+        const absAngle = Math.abs(normalizedAngle)
+        let opacity = 1 - absAngle / 90
+        opacity = Math.max(0, Math.min(1, opacity))
+
+        const scale = 0.7 + 0.3 * opacity
+        const cardRotation = -currentRotation - index * anglePerProject
+
+        card.style.opacity = String(opacity)
+        card.style.transform = `rotate(${index * anglePerProject}deg) translateY(-280px) rotate(${cardRotation}deg) scale(${scale})`
+        card.style.zIndex = String(Math.round(opacity * 10))
+        card.style.pointerEvents = opacity > 0.5 ? 'auto' : 'none'
+      })
+
+      if (Math.abs(diff) > 0.1) {
+        requestAnimationFrame(updateWheel)
+      } else {
+        currentRotation = targetRotation
+        isAnimating = false
+      }
+    }
+
+    function handleScroll(event) {
+      event.preventDefault()
+      accumulatedDelta += event.deltaY
+
+      if (Math.abs(accumulatedDelta) >= scrollThreshold) {
+        const direction = accumulatedDelta > 0 ? 1 : -1
+        currentIndex =
+          (currentIndex + direction + totalProjects) % totalProjects
+        targetRotation = -currentIndex * anglePerProject
+        accumulatedDelta = 0
+
+        if (!isAnimating) {
+          isAnimating = true
+          requestAnimationFrame(updateWheel)
+        }
+      }
+    }
+
+    let touchStartY = 0
+    let touchAccumulated = 0
+
+    function handleTouchStart(event) {
+      touchStartY = event.touches[0].clientY
+      touchAccumulated = 0
+    }
+
+    function handleTouchMove(event) {
+      event.preventDefault()
+      const touchY = event.touches[0].clientY
+      const delta = touchStartY - touchY
+      touchAccumulated += delta
+      touchStartY = touchY
+
+      if (Math.abs(touchAccumulated) >= scrollThreshold) {
+        const direction = touchAccumulated > 0 ? 1 : -1
+        currentIndex =
+          (currentIndex + direction + totalProjects) % totalProjects
+        targetRotation = -currentIndex * anglePerProject
+        touchAccumulated = 0
+
+        if (!isAnimating) {
+          isAnimating = true
+          requestAnimationFrame(updateWheel)
+        }
+      }
+    }
+
+    const container = document.querySelector('.wheel-container')
+    if (container) {
+      container.addEventListener('wheel', handleScroll, { passive: false })
+      container.addEventListener('touchstart', handleTouchStart, {
+        passive: true,
+      })
+      container.addEventListener('touchmove', handleTouchMove, {
+        passive: false,
+      })
+    }
+
+    updateWheel()
   }
 
-  h1 {
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
+  // Run on initial load and after view transitions
+  document.addEventListener('astro:page-load', initProjectWheel)
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initProjectWheel)
+  } else {
+    initProjectWheel()
+  }
+</script>
+
+<style>
+  .projects-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: calc(100vh - 120px);
+    justify-content: center;
+  }
+
+  .wheel-container {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .wheel {
+    position: relative;
+    width: 1px;
+    height: 1px;
+    margin-top: 280px;
+  }
+
+  .project-card {
+    position: absolute;
+    width: 320px;
+    left: 50%;
+    top: 50%;
+    margin-left: -160px;
+    margin-top: -80px;
+    padding: 1.5rem;
+    background: linear-gradient(
+      135deg,
+      rgba(59, 130, 246, 0.1) 0%,
+      rgba(15, 15, 15, 0.9) 100%
+    );
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    border-radius: 12px;
+    transform-origin: center center;
+    transition:
+      opacity 0.1s ease,
+      box-shadow 0.3s ease;
+    will-change: transform, opacity;
+    backdrop-filter: blur(10px);
+  }
+
+  .project-card:hover {
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+  }
+
+  .project-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+  }
+
+  .project-description {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+    margin-bottom: 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .project-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+
+  .tag {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    background: rgba(59, 130, 246, 0.2);
+    color: var(--color-accent);
+    border-radius: 999px;
+    border: 1px solid rgba(59, 130, 246, 0.3);
+  }
+
+  .project-links {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .project-links a {
+    font-size: 0.875rem;
+    color: var(--color-accent);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .project-links a:hover {
+    color: var(--color-accent-hover);
+    text-decoration: underline;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-text-muted);
+    font-size: 0.875rem;
+    animation: bounce 2s infinite;
+  }
+
+  .scroll-hint svg {
+    opacity: 0.6;
+  }
+
+  @keyframes bounce {
+    0%,
+    100% {
+      transform: translateX(-50%) translateY(0);
+    }
+    50% {
+      transform: translateX(-50%) translateY(10px);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .wheel-container {
+      height: 350px;
+    }
+
+    .project-card {
+      width: 280px;
+      margin-left: -140px;
+      padding: 1rem;
+    }
+
+    .project-title {
+      font-size: 1.1rem;
+    }
+
+    .project-description {
+      font-size: 0.8rem;
+      -webkit-line-clamp: 2;
+    }
   }
 </style>
