@@ -63,14 +63,18 @@ import { projects } from '~/data/projects'
 </BaseLayout>
 
 <script is:inline>
-  // Store cleanup function and current state to prevent memory leaks
+  // Store cleanup state to prevent memory leaks
   let cleanupProjectWheel = null
+  let currentContainer = null
+  let currentHandlers = null
 
   function initProjectWheel() {
     // Clean up any existing event listeners before re-initializing
     if (cleanupProjectWheel) {
       cleanupProjectWheel()
       cleanupProjectWheel = null
+      currentContainer = null
+      currentHandlers = null
     }
 
     const wheel = document.getElementById('wheel')
@@ -170,6 +174,14 @@ import { projects } from '~/data/projects'
 
     const container = document.querySelector('.wheel-container')
     if (container) {
+      // Store handlers and container reference for cleanup
+      currentHandlers = {
+        handleScroll,
+        handleTouchStart,
+        handleTouchMove,
+      }
+      currentContainer = container
+
       container.addEventListener('wheel', handleScroll, { passive: false })
       container.addEventListener('touchstart', handleTouchStart, {
         passive: true,
@@ -180,9 +192,20 @@ import { projects } from '~/data/projects'
 
       // Store cleanup function to remove event listeners
       cleanupProjectWheel = () => {
-        container.removeEventListener('wheel', handleScroll)
-        container.removeEventListener('touchstart', handleTouchStart)
-        container.removeEventListener('touchmove', handleTouchMove)
+        if (currentContainer && currentHandlers) {
+          currentContainer.removeEventListener(
+            'wheel',
+            currentHandlers.handleScroll
+          )
+          currentContainer.removeEventListener(
+            'touchstart',
+            currentHandlers.handleTouchStart
+          )
+          currentContainer.removeEventListener(
+            'touchmove',
+            currentHandlers.handleTouchMove
+          )
+        }
       }
     }
 
