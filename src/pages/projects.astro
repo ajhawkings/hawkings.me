@@ -128,9 +128,10 @@ import { projects } from '~/data/projects'
       if (isScrolling) return
 
       // Support both vertical and horizontal scrolling
-      const delta = Math.abs(event.deltaY) > Math.abs(event.deltaX)
-        ? event.deltaY
-        : event.deltaX
+      const delta =
+        Math.abs(event.deltaY) > Math.abs(event.deltaX)
+          ? event.deltaY
+          : event.deltaX
 
       if (Math.abs(delta) < 20) return
 
