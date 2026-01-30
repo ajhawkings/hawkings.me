@@ -86,17 +86,6 @@ import { projects } from '~/data/projects'
     let isAnimating = false
     let isScrolling = false
     const scrollCooldown = 400
-    let hasInteracted = false
-
-    function hideScrollHint() {
-      if (!hasInteracted) {
-        hasInteracted = true
-        const scrollHint = document.querySelector('.scroll-hint')
-        if (scrollHint) {
-          scrollHint.classList.add('hidden')
-        }
-      }
-    }
 
     function updateWheel() {
       if (!wheel) return
@@ -135,13 +124,14 @@ import { projects } from '~/data/projects'
 
     function handleScroll(event) {
       event.preventDefault()
-      if (!hasInteracted) {
-        hideScrollHint()
-      }
 
       if (isScrolling) return
 
-      const delta = event.deltaY
+      // Support both vertical and horizontal scrolling
+      const delta = Math.abs(event.deltaY) > Math.abs(event.deltaX)
+        ? event.deltaY
+        : event.deltaX
+
       if (Math.abs(delta) < 20) return
 
       const direction = delta > 0 ? 1 : -1
@@ -171,9 +161,6 @@ import { projects } from '~/data/projects'
     function handleTouchEnd(event) {
       if (isScrolling) return
 
-      if (!hasInteracted) {
-        hideScrollHint()
-      }
       const touchEndY = event.changedTouches[0].clientY
       const delta = touchStartY - touchEndY
 
@@ -340,7 +327,7 @@ import { projects } from '~/data/projects'
 
   .scroll-hint {
     position: absolute;
-    bottom: 20px;
+    bottom: 200px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -350,13 +337,6 @@ import { projects } from '~/data/projects'
     color: var(--color-text-muted);
     font-size: 0.875rem;
     animation: bounce 2s infinite;
-    opacity: 1;
-    transition: opacity 0.5s ease-out;
-  }
-
-  .scroll-hint.hidden {
-    opacity: 0;
-    pointer-events: none;
   }
 
   .scroll-hint svg {
