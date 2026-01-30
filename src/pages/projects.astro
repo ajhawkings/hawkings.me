@@ -83,10 +83,9 @@ import { projects } from '~/data/projects'
 
     let currentRotation = 0
     let targetRotation = 0
-    let currentIndex = 0
     let isAnimating = false
-    let accumulatedDelta = 0
-    const scrollThreshold = 320
+    let isScrolling = false
+    const scrollCooldown = 400
     let hasInteracted = false
 
     function hideScrollHint() {
@@ -108,8 +107,8 @@ import { projects } from '~/data/projects'
       wheel.style.transform = `rotate(${currentRotation}deg)`
 
       cards.forEach((card, index) => {
-        const cardAngle =
-          (index * anglePerProject + currentRotation + 360) % 360
+        const rawAngle = index * anglePerProject + currentRotation
+        const cardAngle = ((rawAngle % 360) + 360) % 360
         const normalizedAngle = cardAngle > 180 ? cardAngle - 360 : cardAngle
 
         const absAngle = Math.abs(normalizedAngle)
@@ -139,52 +138,59 @@ import { projects } from '~/data/projects'
       if (!hasInteracted) {
         hideScrollHint()
       }
-      accumulatedDelta += event.deltaY
 
-      if (Math.abs(accumulatedDelta) >= scrollThreshold) {
-        const direction = accumulatedDelta > 0 ? 1 : -1
-        currentIndex =
-          (currentIndex + direction + totalProjects) % totalProjects
-        targetRotation = -currentIndex * anglePerProject
-        accumulatedDelta = 0
+      if (isScrolling) return
 
-        if (!isAnimating) {
-          isAnimating = true
-          animationFrameId = requestAnimationFrame(updateWheel)
-        }
+      const delta = event.deltaY
+      if (Math.abs(delta) < 20) return
+
+      const direction = delta > 0 ? 1 : -1
+      targetRotation -= direction * anglePerProject
+
+      if (!isAnimating) {
+        isAnimating = true
+        animationFrameId = requestAnimationFrame(updateWheel)
       }
+
+      isScrolling = true
+      setTimeout(() => {
+        isScrolling = false
+      }, scrollCooldown)
     }
 
     let touchStartY = 0
-    let touchAccumulated = 0
 
     function handleTouchStart(event) {
       touchStartY = event.touches[0].clientY
-      touchAccumulated = 0
     }
 
     function handleTouchMove(event) {
       event.preventDefault()
+    }
+
+    function handleTouchEnd(event) {
+      if (isScrolling) return
+
       if (!hasInteracted) {
         hideScrollHint()
       }
-      const touchY = event.touches[0].clientY
-      const delta = touchStartY - touchY
-      touchAccumulated += delta
-      touchStartY = touchY
+      const touchEndY = event.changedTouches[0].clientY
+      const delta = touchStartY - touchEndY
 
-      if (Math.abs(touchAccumulated) >= scrollThreshold) {
-        const direction = touchAccumulated > 0 ? 1 : -1
-        currentIndex =
-          (currentIndex + direction + totalProjects) % totalProjects
-        targetRotation = -currentIndex * anglePerProject
-        touchAccumulated = 0
+      if (Math.abs(delta) < 80) return
 
-        if (!isAnimating) {
-          isAnimating = true
-          animationFrameId = requestAnimationFrame(updateWheel)
-        }
+      const direction = delta > 0 ? 1 : -1
+      targetRotation -= direction * anglePerProject
+
+      if (!isAnimating) {
+        isAnimating = true
+        animationFrameId = requestAnimationFrame(updateWheel)
       }
+
+      isScrolling = true
+      setTimeout(() => {
+        isScrolling = false
+      }, scrollCooldown)
     }
 
     const container = document.querySelector('.wheel-container')
@@ -195,6 +201,9 @@ import { projects } from '~/data/projects'
       })
       container.addEventListener('touchmove', handleTouchMove, {
         passive: false,
+      })
+      container.addEventListener('touchend', handleTouchEnd, {
+        passive: true,
       })
 
       // Store cleanup function to remove event listeners and cancel animations
@@ -209,6 +218,7 @@ import { projects } from '~/data/projects'
         container.removeEventListener('wheel', handleScroll)
         container.removeEventListener('touchstart', handleTouchStart)
         container.removeEventListener('touchmove', handleTouchMove)
+        container.removeEventListener('touchend', handleTouchEnd)
       }
     }
 
@@ -229,17 +239,19 @@ import { projects } from '~/data/projects'
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: calc(100vh - 120px);
+    height: calc(100vh - 120px);
     justify-content: center;
+    overflow: hidden;
   }
 
   .wheel-container {
     position: relative;
     width: 100%;
-    height: 400px;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
   }
 
   .wheel {
@@ -362,8 +374,8 @@ import { projects } from '~/data/projects'
   }
 
   @media (max-width: 600px) {
-    .wheel-container {
-      height: 350px;
+    .projects-page {
+      height: calc(100vh - 100px);
     }
 
     .project-card {
@@ -380,5 +392,11 @@ import { projects } from '~/data/projects'
       font-size: 0.8rem;
       -webkit-line-clamp: 2;
     }
+  }
+</style>
+
+<style is:global>
+  body:has(.projects-page) {
+    overflow: hidden;
   }
 </style>
