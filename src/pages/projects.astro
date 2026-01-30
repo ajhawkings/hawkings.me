@@ -149,9 +149,11 @@ import { projects } from '~/data/projects'
       }, scrollCooldown)
     }
 
+    let touchStartX = 0
     let touchStartY = 0
 
     function handleTouchStart(event) {
+      touchStartX = event.touches[0].clientX
       touchStartY = event.touches[0].clientY
     }
 
@@ -162,8 +164,13 @@ import { projects } from '~/data/projects'
     function handleTouchEnd(event) {
       if (isScrolling) return
 
+      const touchEndX = event.changedTouches[0].clientX
       const touchEndY = event.changedTouches[0].clientY
-      const delta = touchStartY - touchEndY
+      const deltaX = touchStartX - touchEndX
+      const deltaY = touchStartY - touchEndY
+
+      // Support both vertical and horizontal swipes
+      const delta = Math.abs(deltaY) > Math.abs(deltaX) ? deltaY : deltaX
 
       if (Math.abs(delta) < 80) return
 
