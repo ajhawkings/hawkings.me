@@ -1,5 +1,5 @@
 ---
-import { ViewTransitions } from 'astro:transitions'
+import { ClientRouter } from 'astro:transitions'
 import NavBar from '~/components/NavBar.astro'
 
 interface Props {
@@ -59,7 +59,7 @@ const customSlide = {
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
-    <ViewTransitions />
+    <ClientRouter />
     <script is:inline>
       // Define page order based on navbar
       const pageOrder = {
