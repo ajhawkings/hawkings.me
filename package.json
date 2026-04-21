@@ -14,7 +14,7 @@
   "dependencies": {
     "@astrojs/check": "^0.9.8",
     "@astrojs/cloudflare": "^13.1.8",
-    "astro": "^6.1.5"
+    "astro": "^6.1.8"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
