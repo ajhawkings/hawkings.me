@@ -4,12 +4,14 @@
     x="50"
     y="50"
     font-family="system-ui, sans-serif"
-    font-size="60"
+    font-size="72"
     font-weight="bold"
     fill="#ffffff"
     text-anchor="middle"
     dominant-baseline="central"
+    textLength="94"
+    lengthAdjust="spacingAndGlyphs"
   >
-    H
+    AH
   </text>
 </svg>
