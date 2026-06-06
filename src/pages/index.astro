@@ -261,7 +261,7 @@ import BaseLayout from '~/layouts/BaseLayout.astro'
     el.href = l.url
     if (l.url.startsWith('http')) {
       el.target = '_blank'
-      el.rel = 'noopener'
+      el.rel = 'noopener noreferrer'
     }
     el.style.background = l.c
     el.innerHTML = `<svg class="logo" viewBox="0 0 24 24" aria-hidden="true">${l.icon}</svg><span class="label"><span class="title">${l.t}</span><span class="tag">${l.tag}</span></span>`
@@ -333,7 +333,7 @@ import BaseLayout from '~/layouts/BaseLayout.astro'
       // for touch taps; desktop still uses the native click handler below.
       if (e && e.type === 'touchend' && !moved) {
         if (el.target === '_blank') {
-          window.open(el.href, '_blank', 'noopener')
+          window.open(el.href, '_blank', 'noopener,noreferrer')
         } else {
           window.location.href = el.href
         }
