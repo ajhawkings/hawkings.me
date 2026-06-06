@@ -2,37 +2,374 @@
 import BaseLayout from '~/layouts/BaseLayout.astro'
 ---
 
-<BaseLayout title="Home | hawkings.me">
-  <div class="hero">
-    <h1>Welcome to hawkings.me</h1>
-    <p class="intro">
-      As you can probably see, it is under construction. CSS is a luxury,
-      anyway...
-    </p>
-    <p>
-      In the meantime please check out my <a
-        href="https://github.com/ajhawkings">GitHub profile</a
-      >. It has info on what I'm up to!
-    </p>
+<BaseLayout title="Angus Hawkings" bodyClass="physics">
+  <div class="center">
+    <div class="glass">
+      <h1>Angus Hawkings</h1>
+      <p>Currently Product Manager Intern @ Cloudflare</p>
+      <p>Studying Computer Science at the University of Edinburgh</p>
+      <p>Incoming Exchange Student at ETH Zürich</p>
+    </div>
   </div>
 </BaseLayout>
 
-<style>
-  .hero {
-    padding: 2rem 0;
+<style is:global>
+  body.physics {
+    overflow: hidden;
   }
-
-  h1 {
-    font-size: 2.5rem;
-    background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 1.5rem;
+  .center {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    pointer-events: none;
+    z-index: 5;
+    /* gutter so the card never touches / clips on small screens */
+    padding: 18px;
   }
-
-  .intro {
-    font-size: 1.125rem;
-    color: var(--color-text);
+  .glass {
+    position: relative;
+    pointer-events: none;
+    max-width: min(100%, 560px);
+    padding: clamp(24px, 5vw, 36px) clamp(22px, 6vw, 46px)
+      clamp(24px, 4.5vw, 34px);
+    border-radius: 28px;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.55),
+      rgba(255, 255, 255, 0.18) 42%,
+      rgba(255, 255, 255, 0.08)
+    );
+    backdrop-filter: blur(14px) saturate(1.6);
+    -webkit-backdrop-filter: blur(14px) saturate(1.6);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.7) inset,
+      0 8px 22px rgba(255, 255, 255, 0.25) inset,
+      0 -10px 26px rgba(120, 110, 95, 0.1) inset,
+      0 30px 60px -18px rgba(27, 25, 22, 0.32),
+      0 6px 16px -8px rgba(27, 25, 22, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    overflow: hidden;
+  }
+  /* moving specular sheen */
+  .glass::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    pointer-events: none;
+    border-radius: inherit;
+    background: linear-gradient(
+      115deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.45) 48%,
+      transparent 62%
+    );
+    background-size: 250% 250%;
+    animation: sheen 7s ease-in-out infinite;
+    mix-blend-mode: screen;
+  }
+  /* crisp top edge highlight */
+  .glass::after {
+    content: '';
+    position: absolute;
+    left: 14px;
+    right: 14px;
+    top: 6px;
+    height: 40%;
+    border-radius: 22px 22px 40px 40px;
+    background: linear-gradient(rgba(255, 255, 255, 0.5), transparent);
+    pointer-events: none;
+    opacity: 0.6;
+  }
+  @keyframes sheen {
+    0% {
+      background-position: 120% 0;
+    }
+    50% {
+      background-position: -20% 100%;
+    }
+    100% {
+      background-position: 120% 0;
+    }
+  }
+  .glass > * {
+    position: relative;
+    z-index: 1;
+  }
+  .center h1 {
+    /* one line on every width — scales down on mobile instead of wrapping */
+    font-size: clamp(28px, 8vw, 56px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    white-space: nowrap;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  }
+  /* small Cloudflare-orange accent rule under the name */
+  .center h1::after {
+    content: '';
+    display: block;
+    width: 52px;
+    height: 3px;
+    margin: 16px auto 2px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, #f6821f, #ffa75c);
+  }
+  .center p {
+    margin: 9px auto 0;
+    max-width: 32ch;
+    font-size: clamp(14.5px, 2.1vw, 18px);
+    color: #5f594f;
+    line-height: 1.5;
+  }
+  .center p:first-of-type {
+    margin-top: 16px;
+  }
+  .pill {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 12px 20px;
+    border-radius: 16px;
+    cursor: grab;
+    user-select: none;
+    color: #fff;
+    white-space: nowrap;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+    will-change: transform;
+    touch-action: none;
+    text-decoration: none;
+    /* sit above the decorative card (which is z-index 5 + pointer-events:none) */
+    z-index: 10;
+  }
+  .pill:hover {
+    text-decoration: none;
+    color: #fff;
+  }
+  .pill:active {
+    cursor: grabbing;
+  }
+  .pill .logo {
+    flex: none;
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+  }
+  /* stack the title and tag on two lines, both left-aligned to each other */
+  .pill .label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.2;
+  }
+  .pill .title {
+    font-weight: 600;
+    font-size: 16px;
+  }
+  .pill .tag {
+    font-weight: 400;
+    opacity: 0.85;
+    font-size: 12.5px;
   }
 </style>
+
+<script>
+  // Brand logo paths (24x24 viewBox, filled). X keeps the "Twitter" name but
+  // wears the X mark in black. Colours are kept clearly distinct from each
+  // other: black / blue / purple / orange.
+  const ICONS = {
+    x: '<path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/>',
+    linkedin:
+      '<path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/>',
+    github:
+      '<path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.606-.014 2.898-.014 3.293 0 .322.216.694.825.576C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>',
+    mail: '<path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>',
+  }
+  const links = [
+    {
+      t: 'Twitter',
+      tag: '@angusjh',
+      url: 'https://x.com/angusjh',
+      icon: ICONS.x,
+      c: '#0d0d0d',
+    },
+    {
+      t: 'LinkedIn',
+      tag: 'in/angus-hawkings',
+      url: 'https://linkedin.com/in/angus-hawkings',
+      icon: ICONS.linkedin,
+      c: '#0a66c2',
+    },
+    {
+      t: 'GitHub',
+      tag: 'ajhawkings',
+      url: 'https://github.com/ajhawkings',
+      icon: ICONS.github,
+      c: '#6e40c9',
+    },
+    // Email is gated behind a Turnstile challenge instead of a raw mailto.
+    {
+      t: 'Email',
+      tag: 'say hello',
+      url: '/contact',
+      icon: ICONS.mail,
+      c: '#f6821f',
+    },
+  ]
+  const G = 0.55,
+    BOUNCE = 0.62,
+    FRICTION = 0.992,
+    FLOORF = 0.86
+
+  interface Body {
+    el: HTMLAnchorElement
+    w: number
+    h: number
+    x: number
+    y: number
+    vx: number
+    vy: number
+    dragging: boolean
+  }
+
+  const bodies: Body[] = []
+  links.forEach((l, i) => {
+    const el = document.createElement('a')
+    el.className = 'pill'
+    el.href = l.url
+    if (l.url.startsWith('http')) {
+      el.target = '_blank'
+      el.rel = 'noopener'
+    }
+    el.style.background = l.c
+    el.innerHTML = `<svg class="logo" viewBox="0 0 24 24" aria-hidden="true">${l.icon}</svg><span class="label"><span class="title">${l.t}</span><span class="tag">${l.tag}</span></span>`
+    document.body.appendChild(el)
+    const w = el.offsetWidth,
+      h = el.offsetHeight
+    bodies.push({
+      el,
+      w,
+      h,
+      x: window.innerWidth / 2 - w / 2 + (i - 1.5) * 40,
+      y: -120 - i * 90,
+      vx: (Math.random() - 0.5) * 4,
+      vy: 0,
+      dragging: false,
+    })
+  })
+
+  let dragBody: Body | null = null,
+    lastX = 0,
+    lastY = 0,
+    offX = 0,
+    offY = 0,
+    moved = false
+
+  function pointerDown(e: MouseEvent | TouchEvent, b: Body) {
+    dragBody = b
+    b.dragging = true
+    moved = false
+    const p = 'touches' in e ? e.touches[0] : e
+    offX = p.clientX - b.x
+    offY = p.clientY - b.y
+    lastX = p.clientX
+    lastY = p.clientY
+    e.preventDefault()
+  }
+  function pointerMove(e: MouseEvent | TouchEvent) {
+    if (!dragBody) return
+    const p = 'touches' in e ? e.touches[0] : e
+    if (Math.abs(p.clientX - lastX) > 3 || Math.abs(p.clientY - lastY) > 3)
+      moved = true
+    dragBody.x = p.clientX - offX
+    dragBody.y = p.clientY - offY
+    dragBody.vx = p.clientX - lastX
+    dragBody.vy = p.clientY - lastY
+    lastX = p.clientX
+    lastY = p.clientY
+  }
+  function pointerUp() {
+    if (dragBody) {
+      dragBody.dragging = false
+      dragBody = null
+    }
+  }
+  bodies.forEach((b) => {
+    b.el.addEventListener('mousedown', (e) => pointerDown(e, b))
+    b.el.addEventListener('touchstart', (e) => pointerDown(e, b), {
+      passive: false,
+    })
+    b.el.addEventListener('click', (e) => {
+      if (moved) {
+        e.preventDefault()
+      }
+    })
+  })
+  window.addEventListener('mousemove', pointerMove)
+  window.addEventListener('touchmove', pointerMove, { passive: false })
+  window.addEventListener('mouseup', pointerUp)
+  window.addEventListener('touchend', pointerUp)
+
+  function step() {
+    const W = window.innerWidth,
+      H = window.innerHeight
+    for (const b of bodies) {
+      if (!b.dragging) {
+        b.vy += G
+        b.vx *= FRICTION
+        b.vy *= FRICTION
+        b.x += b.vx
+        b.y += b.vy
+        if (b.x < 0) {
+          b.x = 0
+          b.vx *= -BOUNCE
+        }
+        if (b.x + b.w > W) {
+          b.x = W - b.w
+          b.vx *= -BOUNCE
+        }
+        if (b.y + b.h > H) {
+          b.y = H - b.h
+          b.vy *= -BOUNCE
+          b.vx *= FLOORF
+          if (Math.abs(b.vy) < 1) b.vy = 0
+        }
+        if (b.y < -200) {
+          b.y = -200
+        }
+      }
+      // simple pairwise separation
+      for (const o of bodies) {
+        if (o === b) continue
+        const dx = b.x + b.w / 2 - (o.x + o.w / 2),
+          dy = b.y + b.h / 2 - (o.y + o.h / 2)
+        const minx = (b.w + o.w) / 2 - 6,
+          miny = (b.h + o.h) / 2 - 2
+        if (Math.abs(dx) < minx && Math.abs(dy) < miny) {
+          if (Math.abs(dx) / minx > Math.abs(dy) / miny) {
+            const push = (minx - Math.abs(dx)) * (dx > 0 ? 0.5 : -0.5)
+            if (!b.dragging) b.x += push
+            if (!o.dragging) o.x -= push
+          } else {
+            const push = (miny - Math.abs(dy)) * (dy > 0 ? 0.5 : -0.5)
+            if (!b.dragging) {
+              b.y += push
+              b.vy *= 0.5
+            }
+            if (!o.dragging) {
+              o.y -= push
+              o.vy *= 0.5
+            }
+          }
+        }
+      }
+      b.el.style.transform = `translate(${b.x}px, ${b.y}px) rotate(${b.vx * 0.8}deg)`
+    }
+    requestAnimationFrame(step)
+  }
+  step()
+</script>

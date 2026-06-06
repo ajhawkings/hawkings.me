@@ -4,43 +4,61 @@ import BaseLayout from '~/layouts/BaseLayout.astro'
 Astro.response.status = 404
 ---
 
-<BaseLayout title="404 | hawkings.me" description="Page not found">
-  <div class="error-page">
-    <h1>404</h1>
-    <p>Not found 😔</p>
-    <a href="/">Go back home</a>
-  </div>
+<BaseLayout title="404 — Angus Hawkings" description="Page not found">
+  <main class="wrap">
+    <div class="card">
+      <h1>404</h1>
+      <p>Nothing here.</p>
+      <a class="home" href="/">← back home</a>
+    </div>
+  </main>
 </BaseLayout>
 
 <style>
-  .error-page {
-    padding: 4rem 0;
+  .wrap {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .card {
     text-align: center;
+    padding: 38px 44px;
+    border-radius: 28px;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.6),
+      rgba(255, 255, 255, 0.18) 42%,
+      rgba(255, 255, 255, 0.1)
+    );
+    backdrop-filter: blur(14px) saturate(1.6);
+    -webkit-backdrop-filter: blur(14px) saturate(1.6);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.7) inset,
+      0 30px 60px -18px rgba(27, 25, 22, 0.32);
+    border: 1px solid rgba(255, 255, 255, 0.55);
   }
-
   h1 {
-    font-size: 6rem;
-    margin-bottom: 1rem;
-    color: var(--color-accent);
+    font-size: clamp(56px, 12vw, 96px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1;
   }
-
   p {
-    font-size: 1.5rem;
-    margin-bottom: 2rem;
+    margin: 10px 0 20px;
+    font-size: 15px;
+    color: #6f685d;
   }
-
-  a {
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
-    background: var(--color-accent);
-    color: var(--color-bg);
-    border-radius: 0.5rem;
-    font-weight: 500;
-    transition: background 0.2s ease;
-  }
-
-  a:hover {
-    background: var(--color-accent-hover);
+  .home {
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: oklch(0.55 0.17 35);
     text-decoration: none;
+  }
+  .home:hover {
+    text-decoration: underline;
   }
 </style>

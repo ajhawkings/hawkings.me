@@ -1,20 +1,30 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('Home Page', () => {
-  test('should load successfully', async ({ page }) => {
+test.describe('Home (physics)', () => {
+  test('should load with the name card', async ({ page }) => {
     await page.goto('/')
-    await expect(page).toHaveTitle(/Home/)
+    await expect(page).toHaveTitle(/Angus Hawkings/)
+    await expect(page.locator('.glass h1')).toContainText('Angus')
+    await expect(page.locator('.glass h1')).toContainText('Hawkings')
   })
 
-  test('should display welcome message', async ({ page }) => {
+  test('should spawn the four draggable link pills', async ({ page }) => {
     await page.goto('/')
-    await expect(page.locator('h1')).toHaveText('Welcome to hawkings.me')
+    await expect(page.locator('.pill')).toHaveCount(4)
   })
 
-  test('should have GitHub link', async ({ page }) => {
+  test('should link socials externally and email internally', async ({
+    page,
+  }) => {
     await page.goto('/')
-    const githubLink = page.locator('a[href="https://github.com/ajhawkings"]')
-    await expect(githubLink).toBeVisible()
-    await expect(githubLink).toHaveText('GitHub profile')
+
+    const github = page.locator('a.pill[href="https://github.com/ajhawkings"]')
+    await expect(github).toHaveAttribute('target', '_blank')
+    await expect(github).toHaveAttribute('rel', /noopener/)
+
+    // The email pill routes to the Turnstile-gated page, not a raw mailto.
+    const email = page.locator('a.pill[href="/contact"]')
+    await expect(email).toHaveCount(1)
+    await expect(email).not.toHaveAttribute('target', '_blank')
   })
 })
