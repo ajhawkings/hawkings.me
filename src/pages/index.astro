@@ -175,6 +175,24 @@ import BaseLayout from '~/layouts/BaseLayout.astro'
     opacity: 0.85;
     font-size: 12.5px;
   }
+  /* desktop: pills ~1.5x larger; mobile keeps the base size above */
+  @media (min-width: 768px) {
+    .pill {
+      gap: 16px;
+      padding: 18px 30px;
+      border-radius: 24px;
+    }
+    .pill .logo {
+      width: 30px;
+      height: 30px;
+    }
+    .pill .title {
+      font-size: 24px;
+    }
+    .pill .tag {
+      font-size: 19px;
+    }
+  }
 </style>
 
 <script>
@@ -250,13 +268,26 @@ import BaseLayout from '~/layouts/BaseLayout.astro'
     document.body.appendChild(el)
     const w = el.offsetWidth,
       h = el.offsetHeight
+    // Organic entrance: give each pill its own horizontal lane (so they don't
+    // overlap) but jitter the position, drop it from a random height, and add a
+    // gentle random sideways drift — so they cascade in differently every load
+    // and scatter naturally instead of all marching to the edges. Mobile keeps
+    // the centered stagger that worked well.
+    const W0 = window.innerWidth
+    const n = links.length
+    const desktop = window.matchMedia('(min-width: 768px)').matches
+    const lane = W0 / n
+    const x = desktop
+      ? lane * i + (lane - w) / 2 + (Math.random() - 0.5) * (lane - w) * 0.8
+      : W0 / 2 - w / 2 + (i - 1.5) * 40
+    const y = desktop ? -120 - Math.random() * 420 : -120 - i * 90
     bodies.push({
       el,
       w,
       h,
-      x: window.innerWidth / 2 - w / 2 + (i - 1.5) * 40,
-      y: -120 - i * 90,
-      vx: (Math.random() - 0.5) * 4,
+      x,
+      y,
+      vx: (Math.random() - 0.5) * 5,
       vy: 0,
       dragging: false,
     })
@@ -292,10 +323,21 @@ import BaseLayout from '~/layouts/BaseLayout.astro'
     lastX = p.clientX
     lastY = p.clientY
   }
-  function pointerUp() {
+  function pointerUp(e?: MouseEvent | TouchEvent) {
     if (dragBody) {
+      const el = dragBody.el
       dragBody.dragging = false
       dragBody = null
+      // On touch, calling preventDefault() in touchstart suppresses the
+      // synthetic click, so a tap would never navigate. Do it by hand here
+      // for touch taps; desktop still uses the native click handler below.
+      if (e && e.type === 'touchend' && !moved) {
+        if (el.target === '_blank') {
+          window.open(el.href, '_blank', 'noopener')
+        } else {
+          window.location.href = el.href
+        }
+      }
     }
   }
   bodies.forEach((b) => {
@@ -338,35 +380,53 @@ import BaseLayout from '~/layouts/BaseLayout.astro'
           b.vx *= FLOORF
           if (Math.abs(b.vy) < 1) b.vy = 0
         }
-        if (b.y < -200) {
-          b.y = -200
+        if (b.y < -600) {
+          b.y = -600
         }
       }
-      // simple pairwise separation
-      for (const o of bodies) {
-        if (o === b) continue
-        const dx = b.x + b.w / 2 - (o.x + o.w / 2),
-          dy = b.y + b.h / 2 - (o.y + o.h / 2)
-        const minx = (b.w + o.w) / 2 - 6,
-          miny = (b.h + o.h) / 2 - 2
-        if (Math.abs(dx) < minx && Math.abs(dy) < miny) {
+    }
+    // Resolve overlaps with a few relaxation passes so crowded piles settle
+    // instead of leaving two pills clipped into each other ("sticking").
+    // A dragged pill never yields — it shoves the others fully aside.
+    for (let iter = 0; iter < 4; iter++) {
+      for (let a = 0; a < bodies.length; a++) {
+        for (let c = a + 1; c < bodies.length; c++) {
+          const b = bodies[a],
+            o = bodies[c]
+          const dx = b.x + b.w / 2 - (o.x + o.w / 2),
+            dy = b.y + b.h / 2 - (o.y + o.h / 2)
+          const minx = (b.w + o.w) / 2 - 6,
+            miny = (b.h + o.h) / 2 - 2
+          if (Math.abs(dx) >= minx || Math.abs(dy) >= miny) continue
+          // share of the correction each body takes (a dragged body is fixed)
+          const bShare = b.dragging ? 0 : o.dragging ? 1 : 0.5
+          const oShare = o.dragging ? 0 : b.dragging ? 1 : 0.5
+          if (bShare + oShare === 0) continue
           if (Math.abs(dx) / minx > Math.abs(dy) / miny) {
-            const push = (minx - Math.abs(dx)) * (dx > 0 ? 0.5 : -0.5)
-            if (!b.dragging) b.x += push
-            if (!o.dragging) o.x -= push
+            const overlap = (minx - Math.abs(dx)) * (dx >= 0 ? 1 : -1)
+            b.x += overlap * bShare
+            o.x -= overlap * oShare
           } else {
-            const push = (miny - Math.abs(dy)) * (dy > 0 ? 0.5 : -0.5)
-            if (!b.dragging) {
-              b.y += push
-              b.vy *= 0.5
-            }
-            if (!o.dragging) {
-              o.y -= push
-              o.vy *= 0.5
+            const overlap = (miny - Math.abs(dy)) * (dy >= 0 ? 1 : -1)
+            b.y += overlap * bShare
+            o.y -= overlap * oShare
+            // bounce off each other a bit instead of dead-stopping: reflect
+            // only the velocity component bringing them together (restitution
+            // < 1 so the bounces decay and they still settle). dy<0 means b is
+            // the upper pill.
+            const e = 0.45
+            if (dy < 0) {
+              if (!b.dragging && b.vy > 0) b.vy = -b.vy * e
+              if (!o.dragging && o.vy < 0) o.vy = -o.vy * e
+            } else {
+              if (!b.dragging && b.vy < 0) b.vy = -b.vy * e
+              if (!o.dragging && o.vy > 0) o.vy = -o.vy * e
             }
           }
         }
       }
+    }
+    for (const b of bodies) {
       b.el.style.transform = `translate(${b.x}px, ${b.y}px) rotate(${b.vx * 0.8}deg)`
     }
     requestAnimationFrame(step)
