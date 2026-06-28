@@ -8,10 +8,10 @@ Personal website for Angus Hawkings (hawkings.me), built with Astro 5 and deploy
 
 ## Commands
 
-- `npm run dev` - Start development server
-- `npm run build` - Type-check with `astro check` then build for production
-- `npm run preview` - Preview production build locally
-- `npm run format` - Format code with Prettier
+- `pnpm dev` - Start development server
+- `pnpm build` - Type-check with `astro check` then build for production
+- `pnpm preview` - Preview production build locally
+- `pnpm format` - Format code with Prettier
 
 ## Architecture
 

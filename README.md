@@ -24,16 +24,16 @@ Hawkings.me is my personal website built with [Astro](https://astro.build) and d
    nvm use lts
    ```
 
-4. Update npm to the latest version:
+4. Install pnpm globally (see [pnpm.io/installation](https://pnpm.io/installation)):
 
    ```shell
-   npm install -g npm
+   brew install pnpm
    ```
 
 5. Install the packages in the cloned directory:
 
    ```shell
-   npm install
+   pnpm install
    ```
 
 ### IDE/Code Editor
@@ -56,13 +56,13 @@ This project uses [Playwright](https://playwright.dev/) for end-to-end testing.
 
 ```shell
 # Run tests in headless mode
-npm test
+pnpm test
 
 # Run tests in UI mode (interactive)
-npm run test:ui
+pnpm test:ui
 
 # View HTML test report
-npm run test:report
+pnpm test:report
 ```
 
 ### Writing Tests

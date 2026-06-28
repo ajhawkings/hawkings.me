@@ -3,6 +3,7 @@
   "version": "2.0.0",
   "type": "module",
   "scripts": {
+    "preinstall": "npx only-allow pnpm",
     "dev": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro build && wrangler dev",
