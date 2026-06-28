@@ -24,7 +24,7 @@ Hawkings.me is my personal website built with [Astro](https://astro.build) and d
    nvm use lts
    ```
 
-4. Install pnpm globally (see [pnpm.io/installation](https://pnpm.io/installation)):
+4. Install pnpm globally (see [pnpm.io/installation](https://pnpm.io/installation)) - e.g. for MacOS:
 
    ```shell
    brew install pnpm
