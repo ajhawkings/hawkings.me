@@ -1,8 +1,13 @@
 import { defineConfig } from 'astro/config'
 import cloudflare from '@astrojs/cloudflare'
+import sitemap from '@astrojs/sitemap'
 
 export default defineConfig({
   output: 'server',
+  prefetch: true,
+  devToolbar: {
+    enabled: false,
+  },
   adapter: cloudflare({
     imageService: 'compile',
     platformProxy: {
@@ -10,4 +15,5 @@ export default defineConfig({
     },
   }),
   site: 'https://hawkings.me',
+  integrations: [sitemap()],
 })

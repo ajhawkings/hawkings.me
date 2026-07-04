@@ -1,67 +1,74 @@
 ---
+import SiteNav from '~/components/SiteNav.astro'
+import '~/styles/global.css'
+
 interface Props {
   title: string
-  description?: string
-  bodyClass?: string
+  description: string
+  image?: string
+  noIndex?: boolean
 }
 
 const {
   title,
-  description = 'Angus Hawkings — PM Intern @ Cloudflare · CS @ Edinburgh.',
-  bodyClass = '',
+  description,
+  image = '/og-image.png',
+  noIndex = false,
 } = Astro.props
+const canonical = new URL(Astro.url.pathname, Astro.site)
+const ogImage = new URL(image, Astro.site)
+const fontHref =
+  'https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Geist+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap'
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en-GB">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script is:inline>
+      const storedTheme = localStorage.getItem('theme')
+      const systemDark = window.matchMedia(
+        '(prefers-color-scheme: dark)'
+      ).matches
+      document.documentElement.dataset.theme =
+        storedTheme || (systemDark ? 'dark' : 'light')
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href={fontHref}
+      onload={'this.onload=null;this.rel="stylesheet"'}
+    />
+    <noscript>
+      <link rel="stylesheet" href={fontHref} />
+    </noscript>
     <meta name="description" content={description} />
+    {noIndex && <meta name="robots" content="noindex" />}
+    <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Angus Hawkings" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
     <title>{title}</title>
     <slot name="head" />
   </head>
-  <body class={bodyClass}>
+  <body>
+    <div class="sky" aria-hidden="true">
+      <div class="blob b1"></div>
+      <div class="blob b2"></div>
+      <div class="blob b3"></div>
+    </div>
+    <SiteNav />
     <slot />
-    <style is:global>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      html,
-      body {
-        height: 100%;
-      }
-      body {
-        font-family: Helvetica, Arial, sans-serif;
-        color: #1b1916;
-        background-color: #efece3;
-        /* layered: dot grid · warm orange pool · cool violet pool · base wash.
-           the two colour pools sit behind the frosted card so the blur picks
-           them up and the liquid glass reads as glass. */
-        background-image:
-          radial-gradient(rgba(0, 0, 0, 0.045) 1px, transparent 1px),
-          radial-gradient(
-            120% 120% at 14% 6%,
-            rgba(246, 130, 31, 0.18),
-            transparent 52%
-          ),
-          radial-gradient(
-            120% 120% at 86% 96%,
-            rgba(108, 92, 231, 0.16),
-            transparent 54%
-          ),
-          linear-gradient(155deg, #f6f2e9 0%, #ece6da 55%, #e6dfd0 100%);
-        background-size:
-          26px 26px,
-          100% 100%,
-          100% 100%,
-          100% 100%;
-        background-repeat: repeat, no-repeat, no-repeat, no-repeat;
-        background-attachment: fixed;
-      }
-    </style>
   </body>
 </html>

@@ -1,11 +1,11 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Home (physics)', () => {
-  test('should load with the name card', async ({ page }) => {
+  test('should load the hero', async ({ page }) => {
     await page.goto('/')
     await expect(page).toHaveTitle(/Angus Hawkings/)
-    await expect(page.locator('.glass h1')).toContainText('Angus')
-    await expect(page.locator('.glass h1')).toContainText('Hawkings')
+    await expect(page.locator('main h1')).toContainText("Hi, I'm Angus")
+    await expect(page.locator('main h1')).toContainText('Product Manager')
   })
 
   test('should spawn the four draggable link pills', async ({ page }) => {
