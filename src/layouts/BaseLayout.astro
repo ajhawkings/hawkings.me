@@ -15,10 +15,51 @@ const {
   image = '/og-image.png',
   noIndex = false,
 } = Astro.props
-const canonical = new URL(Astro.url.pathname, Astro.site)
+const canonicalPath =
+  Astro.url.pathname === '/' ? '/' : `${Astro.url.pathname.replace(/\/$/, '')}/`
+const canonical = new URL(canonicalPath, Astro.site)
 const ogImage = new URL(image, Astro.site)
 const fontHref =
   'https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Geist+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap'
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Person',
+      '@id': 'https://hawkings.me/#person',
+      name: 'Angus Hawkings',
+      url: 'https://hawkings.me/',
+      jobTitle: 'Product Manager Intern',
+      affiliation: [
+        {
+          '@type': 'Organization',
+          name: 'Cloudflare',
+          url: 'https://www.cloudflare.com/',
+        },
+        {
+          '@type': 'CollegeOrUniversity',
+          name: 'The University of Edinburgh',
+          url: 'https://www.ed.ac.uk/',
+        },
+      ],
+      sameAs: [
+        'https://github.com/ajhawkings',
+        'https://linkedin.com/in/angus-hawkings',
+        'https://x.com/angusjh',
+      ],
+    },
+    {
+      '@type': 'WebSite',
+      '@id': 'https://hawkings.me/#website',
+      url: 'https://hawkings.me/',
+      name: 'Angus Hawkings',
+      inLanguage: 'en-GB',
+      publisher: {
+        '@id': 'https://hawkings.me/#person',
+      },
+    },
+  ],
+}
 ---
 
 <!doctype html>
@@ -49,17 +90,40 @@ const fontHref =
     {noIndex && <meta name="robots" content="noindex" />}
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta
+      name="theme-color"
+      content="#eaf0f6"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="#0d1420"
+      media="(prefers-color-scheme: dark)"
+    />
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_GB" />
     <meta property="og:site_name" content="Angus Hawkings" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Angus Hawkings — personal website" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <meta
+      name="twitter:image:alt"
+      content="Angus Hawkings — personal website"
+    />
     <title>{title}</title>
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={JSON.stringify(structuredData)}
+    />
     <slot name="head" />
   </head>
   <body>

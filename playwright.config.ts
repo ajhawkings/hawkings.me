@@ -1,5 +1,25 @@
 import { defineConfig, devices } from '@playwright/test'
 
+const projects = [
+  {
+    name: 'chromium',
+    use: { ...devices['Desktop Chrome'] },
+  },
+]
+
+if (process.env.CROSS_BROWSER) {
+  projects.push(
+    {
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'] },
+    },
+    {
+      name: 'webkit',
+      use: { ...devices['Desktop Safari'] },
+    }
+  )
+}
+
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
@@ -24,12 +44,7 @@ export default defineConfig({
   },
 
   /* Configure projects for major browsers */
-  projects: [
-    {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-    },
-  ],
+  projects,
 
   /* Run your local dev server before starting the tests */
   webServer: {

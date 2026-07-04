@@ -1,0 +1,13 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#edf2f7"/>
+  <circle cx="170" cy="72" r="270" fill="#cfe0f2"/>
+  <circle cx="1030" cy="414" r="260" fill="#e2d9f3"/>
+  <circle cx="462" cy="604" r="230" fill="#f8ddc2"/>
+  <rect x="96" y="80" width="1008" height="470" rx="36" fill="white" fill-opacity=".52" stroke="white" stroke-opacity=".76" stroke-width="2"/>
+  <path d="M146 451h908" stroke="#1a1d21" stroke-opacity=".12" stroke-width="2"/>
+  <text x="146" y="220" fill="#1a1d21" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="82" font-weight="700">Angus Hawkings</text>
+  <text x="150" y="302" fill="#5b6470" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="34" font-weight="500">Computer Science at Edinburgh</text>
+  <text x="150" y="354" fill="#5b6470" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="34" font-weight="500">Product Manager Intern at Cloudflare</text>
+  <rect x="150" y="476" width="156" height="38" rx="19" fill="#f6821f"/>
+  <text x="176" y="502" fill="white" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="18" font-weight="700">hawkings.me</text>
+</svg>

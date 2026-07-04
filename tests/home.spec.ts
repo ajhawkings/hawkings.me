@@ -27,4 +27,25 @@ test.describe('Home (physics)', () => {
     await expect(email).toHaveCount(1)
     await expect(email).not.toHaveAttribute('target', '_blank')
   })
+
+  test('gravity clones remain keyboard-operable', async ({ page }) => {
+    await page.goto('/')
+    await page.getByRole('switch', { name: /gravity/i }).press(' ')
+    await expect(page.locator('.phys-clone')).toHaveCount(4)
+
+    await page.keyboard.press('Tab')
+    const focusedClone = page.locator('.phys-clone:focus')
+    await expect(focusedClone).toHaveCount(1)
+    await expect(focusedClone).toHaveAttribute('href', /linkedin/)
+  })
+
+  test('does not overflow on a narrow mobile viewport', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto('/')
+
+    const hasHorizontalOverflow = await page.evaluate(
+      () => document.documentElement.scrollWidth > window.innerWidth
+    )
+    expect(hasHorizontalOverflow).toBe(false)
+  })
 })

@@ -51,16 +51,17 @@
       <span>Email<small>Say hello</small></span>
     </a>
   </div>
-  <div
+  <button
     class="gravity"
     id="gravity"
+    type="button"
     role="switch"
     aria-checked="false"
-    tabindex="0"
   >
-    <span>gravity</span><div class="switch"></div><span id="gravLabel">off</span
+    <span>gravity</span><span class="switch"></span><span id="gravLabel"
+      >off</span
     >
-  </div>
+  </button>
 </div>
 
 <style>
@@ -136,7 +137,9 @@
     align-items: center;
     gap: 8px;
     padding: 6px 10px;
+    border: 0;
     border-radius: 999px;
+    background: transparent;
     color: var(--faint);
     cursor: pointer;
     font-family: 'Geist Mono', monospace;
@@ -241,6 +244,7 @@
     bodies = pills.map((p) => {
       const r = p.getBoundingClientRect()
       const clone = p.cloneNode(true) as HTMLElement
+      clone.tabIndex = 0
       clone.style.cssText = `position:fixed;left:0;top:0;transform:translate(${r.left}px,${r.top}px);margin:0;z-index:100;transition:none;touch-action:none;`
       clone.classList.add('phys-clone')
       document.body.appendChild(clone)
@@ -257,6 +261,7 @@
       }
       clone.addEventListener('click', (event) => {
         event.preventDefault()
+        if (event.detail === 0) navigateFrom(clone)
       })
       clone.addEventListener('pointerdown', (event) => {
         event.preventDefault()
@@ -437,10 +442,4 @@
   }
 
   toggle?.addEventListener('click', flip)
-  toggle?.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault()
-      flip()
-    }
-  })
 </script>

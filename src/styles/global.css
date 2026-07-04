@@ -68,6 +68,10 @@ textarea {
   font: inherit;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 :focus-visible {
   outline: 3px solid color-mix(in srgb, var(--accent) 72%, white);
   outline-offset: 3px;

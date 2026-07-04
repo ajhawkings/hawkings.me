@@ -24,4 +24,57 @@ test.describe('Contact (Turnstile-gated email)', () => {
     expect(json.email).toBeUndefined()
     expect(json.error).toContain('challenge')
   })
+
+  test('reveals the email after a successful client verification', async ({
+    page,
+  }) => {
+    await page.route('/api/contact', async (route) => {
+      await route.fulfill({
+        contentType: 'application/json',
+        body: JSON.stringify({ email: 'hello@hawkings.me' }),
+      })
+    })
+
+    await page.goto('/contact')
+    await page.evaluate(() => {
+      ;(
+        window as unknown as Window & {
+          onTurnstileSuccess: (token: string) => Promise<void>
+        }
+      ).onTurnstileSuccess('test-token')
+    })
+
+    const email = page.locator('#email-link')
+    await expect(email).toHaveText('hello@hawkings.me')
+    await expect(email).toHaveAttribute('href', 'mailto:hello@hawkings.me')
+    await expect(page.locator('#contact-form')).toBeHidden()
+  })
+
+  test('shows API verification failures without revealing the email', async ({
+    page,
+  }) => {
+    await page.route('/api/contact', async (route) => {
+      await route.fulfill({
+        status: 403,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          error: 'Verification failed. Please try again.',
+        }),
+      })
+    })
+
+    await page.goto('/contact')
+    await page.evaluate(() => {
+      ;(
+        window as unknown as Window & {
+          onTurnstileSuccess: (token: string) => Promise<void>
+        }
+      ).onTurnstileSuccess('bad-token')
+    })
+
+    await expect(page.locator('#contact-status')).toContainText(
+      'Verification failed'
+    )
+    await expect(page.locator('#email-result')).toBeHidden()
+  })
 })
