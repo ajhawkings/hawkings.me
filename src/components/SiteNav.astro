@@ -1,0 +1,108 @@
+---
+const links = [
+  { href: '/', label: 'Home' },
+  { href: '/projects', label: 'Work' },
+  { href: '/blog', label: 'Writing' },
+]
+---
+
+<nav class="site-nav glass" aria-label="Main navigation">
+  <a class="brand" href="/">Angus Hawkings</a>
+  <div class="nav-actions">
+    <div class="nav-links">
+      {
+        links.map((link) => (
+          <a class="nav-link" href={link.href}>
+            {link.label}
+          </a>
+        ))
+      }
+      <a class="nav-link cta" href="/contact">Say hello</a>
+    </div>
+    <button
+      class="icon-button theme-toggle"
+      type="button"
+      aria-label="Toggle dark mode"
+    >
+      <svg
+        class="moon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <path d="M12 3a6.8 6.8 0 0 0 8.7 8.7A8.5 8.5 0 1 1 12 3Z"></path>
+      </svg>
+      <svg
+        class="sun"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <circle cx="12" cy="12" r="4"></circle>
+        <path
+          d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"
+        ></path>
+      </svg>
+    </button>
+    <button
+      class="icon-button menu-toggle"
+      type="button"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2" aria-hidden="true">
+        <path d="M4 7h16M4 12h16M4 17h16"></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-sheet glass" id="mobile-menu">
+  {links.map((link) => <a href={link.href}>{link.label}</a>)}
+  <a href="/contact">Say hello</a>
+</div>
+
+<script>
+  const root = document.documentElement
+  const themeToggle = document.querySelector<HTMLButtonElement>('.theme-toggle')
+  const menuToggle = document.querySelector<HTMLButtonElement>('.menu-toggle')
+  const sheet = document.querySelector<HTMLElement>('#mobile-menu')
+
+  themeToggle?.addEventListener('click', () => {
+    const next = root.dataset.theme === 'dark' ? 'light' : 'dark'
+    root.dataset.theme = next
+    localStorage.setItem('theme', next)
+  })
+
+  function setMenu(open: boolean) {
+    sheet?.classList.toggle('open', open)
+    menuToggle?.setAttribute('aria-expanded', String(open))
+    document.body.classList.toggle('menu-open', open)
+  }
+
+  menuToggle?.addEventListener('click', () => {
+    setMenu(!sheet?.classList.contains('open'))
+  })
+
+  sheet?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => setMenu(false))
+  })
+
+  document
+    .querySelectorAll<HTMLAnchorElement>('a[href="/"]')
+    .forEach((link) => {
+      link.addEventListener('click', (event) => {
+        if (window.location.pathname === '/') {
+          event.preventDefault()
+          setMenu(false)
+        }
+      })
+    })
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') setMenu(false)
+  })
+</script>

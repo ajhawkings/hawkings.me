@@ -1,0 +1,447 @@
+<div class="dock-zone" id="contact-dock">
+  <div class="dock glass" id="dock">
+    <a
+      class="pill li"
+      href="https://linkedin.com/in/angus-hawkings"
+      target="_blank"
+      rel="noopener noreferrer"
+      data-phys
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true"
+        ><path
+          d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13zM7.12 20.45H3.55V9h3.57v11.45z"
+        ></path></svg
+      >
+      <span>LinkedIn<small>in/angus-hawkings</small></span>
+    </a>
+    <a
+      class="pill gh"
+      href="https://github.com/ajhawkings"
+      target="_blank"
+      rel="noopener noreferrer"
+      data-phys
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true"
+        ><path
+          d="M12 .5A11.5 11.5 0 0 0 .5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2.17c-3.2.7-3.87-1.37-3.87-1.37-.52-1.33-1.28-1.68-1.28-1.68-1.04-.72.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.7 1.25 3.35.96.1-.75.4-1.25.72-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.16-1.18 3.16-1.18.63 1.59.24 2.76.12 3.05.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.66.41.36.78 1.06.78 2.14v3.17c0 .31.2.68.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5z"
+        ></path></svg
+      >
+      <span>GitHub<small>ajhawkings</small></span>
+    </a>
+    <a
+      class="pill tw"
+      href="https://x.com/angusjh"
+      target="_blank"
+      rel="noopener noreferrer"
+      data-phys
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true"
+        ><path
+          d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24h-6.66l-5.21-6.82-5.97 6.82H1.67l7.73-8.84L1.25 2.25h6.83l4.71 6.23 5.45-6.23zm-1.16 17.52h1.83L7.08 4.13H5.12l11.96 15.64z"
+        ></path></svg
+      >
+      <span>Twitter<small>@angusjh</small></span>
+    </a>
+    <a class="pill em" href="/contact" data-phys>
+      <svg viewBox="0 0 24 24" aria-hidden="true"
+        ><path
+          d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4.24-8 5.01-8-5.01V6.35l8 5.01 8-5.01v1.89z"
+        ></path></svg
+      >
+      <span>Email<small>Say hello</small></span>
+    </a>
+  </div>
+  <div
+    class="gravity"
+    id="gravity"
+    role="switch"
+    aria-checked="false"
+    tabindex="0"
+  >
+    <span>gravity</span><div class="switch"></div><span id="gravLabel">off</span
+    >
+  </div>
+</div>
+
+<style>
+  .dock-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 0;
+  }
+
+  .dock {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 26px;
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    border-radius: 16px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14.5px;
+    font-weight: 600;
+    text-decoration: none;
+    user-select: none;
+    box-shadow: 0 4px 14px rgba(30, 40, 60, 0.18);
+    transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.3, 1);
+    will-change: transform;
+  }
+
+  .dock .pill:hover {
+    transform: translateY(-5px) scale(1.04);
+  }
+
+  .pill svg {
+    flex-shrink: 0;
+    width: 17px;
+    height: 17px;
+    fill: currentColor;
+  }
+
+  .pill.li {
+    background: #0a66c2;
+  }
+
+  .pill.gh {
+    background: #6e40c9;
+  }
+
+  .pill.tw {
+    background: #16181c;
+  }
+
+  .pill.em {
+    background: var(--accent);
+  }
+
+  .pill span small {
+    display: block;
+    font-size: 10.5px;
+    font-weight: 400;
+    opacity: 0.85;
+  }
+
+  .gravity {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    color: var(--faint);
+    cursor: pointer;
+    font-family: 'Geist Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    opacity: 0.55;
+    user-select: none;
+    transition: opacity 0.2s;
+  }
+
+  .gravity:hover,
+  .gravity:focus-visible {
+    opacity: 1;
+  }
+
+  .gravity .switch {
+    position: relative;
+    width: 28px;
+    height: 16px;
+    border-radius: 999px;
+    background: rgba(120, 130, 145, 0.35);
+    transition: background 0.2s;
+  }
+
+  .gravity .switch::after {
+    position: absolute;
+    top: 2.5px;
+    left: 3px;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+    content: '';
+    transition: transform 0.2s;
+  }
+
+  .gravity.on .switch {
+    background: var(--accent);
+  }
+
+  .gravity.on .switch::after {
+    transform: translateX(11px);
+  }
+
+  @media (max-width: 800px) {
+    .dock {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById('gravity')
+  const label = document.getElementById('gravLabel')
+  const pills = Array.from(
+    document.querySelectorAll<HTMLElement>('[data-phys]')
+  )
+  let physicsOn = false
+  let bodies: Array<{
+    el: HTMLElement
+    source: HTMLElement
+    w: number
+    h: number
+    x: number
+    y: number
+    vx: number
+    vy: number
+  }> = []
+  let raf: number | null = null
+  let returnTimer: number | null = null
+  let dragging: null | {
+    b: (typeof bodies)[number]
+    ox: number
+    oy: number
+    sx: number
+    sy: number
+    lx: number
+    ly: number
+    moved: boolean
+    startedAt: number
+    pointerId: number
+  } = null
+
+  function navigateFrom(el: HTMLElement) {
+    const link = el as HTMLAnchorElement
+    if (!link.href) return
+    if (link.target === '_blank') {
+      window.open(link.href, '_blank', 'noopener')
+      return
+    }
+    window.location.href = link.href
+  }
+
+  function start() {
+    if (returnTimer) {
+      window.clearTimeout(returnTimer)
+      returnTimer = null
+    }
+    document.querySelectorAll('.phys-clone').forEach((clone) => clone.remove())
+    bodies = pills.map((p) => {
+      const r = p.getBoundingClientRect()
+      const clone = p.cloneNode(true) as HTMLElement
+      clone.style.cssText = `position:fixed;left:${r.left}px;top:${r.top}px;margin:0;z-index:100;transition:none;touch-action:none;`
+      clone.classList.add('phys-clone')
+      document.body.appendChild(clone)
+      p.style.visibility = 'hidden'
+      const b = {
+        el: clone,
+        source: p,
+        w: r.width,
+        h: r.height,
+        x: r.left,
+        y: r.top,
+        vx: (Math.random() - 0.5) * 14,
+        vy: -6 - Math.random() * 6,
+      }
+      clone.addEventListener('click', (event) => {
+        event.preventDefault()
+      })
+      clone.addEventListener('pointerdown', (event) => {
+        event.preventDefault()
+        dragging = {
+          b,
+          ox: event.clientX - b.x,
+          oy: event.clientY - b.y,
+          sx: event.clientX,
+          sy: event.clientY,
+          lx: event.clientX,
+          ly: event.clientY,
+          moved: false,
+          startedAt: performance.now(),
+          pointerId: event.pointerId,
+        }
+        clone.setPointerCapture(event.pointerId)
+      })
+      clone.addEventListener('pointermove', (event) => {
+        if (dragging && dragging.b === b) {
+          const totalMove = Math.hypot(
+            event.clientX - dragging.sx,
+            event.clientY - dragging.sy
+          )
+          if (totalMove > 14) dragging.moved = true
+          b.x = event.clientX - dragging.ox
+          b.y = event.clientY - dragging.oy
+          b.vx = (event.clientX - dragging.lx) * 0.9
+          b.vy = (event.clientY - dragging.ly) * 0.9
+          dragging.lx = event.clientX
+          dragging.ly = event.clientY
+        }
+      })
+      clone.addEventListener('pointerup', (event) => {
+        if (dragging?.b === b) {
+          const travel = Math.hypot(
+            event.clientX - dragging.sx,
+            event.clientY - dragging.sy
+          )
+          const elapsed = performance.now() - dragging.startedAt
+          const shouldClick = !dragging.moved && travel <= 16 && elapsed < 700
+          if (clone.hasPointerCapture(dragging.pointerId)) {
+            clone.releasePointerCapture(dragging.pointerId)
+          }
+          dragging = null
+          if (shouldClick) navigateFrom(clone)
+          return
+        }
+        dragging = null
+      })
+      clone.addEventListener('pointercancel', () => {
+        dragging = null
+      })
+      return b
+    })
+    step()
+  }
+
+  function resolveBodyCollisions() {
+    const restitution = 0.76
+    for (let i = 0; i < bodies.length; i += 1) {
+      for (let j = i + 1; j < bodies.length; j += 1) {
+        const a = bodies[i]
+        const b = bodies[j]
+        const dx = a.x + a.w / 2 - (b.x + b.w / 2)
+        const dy = a.y + a.h / 2 - (b.y + b.h / 2)
+        const overlapX = (a.w + b.w) / 2 - Math.abs(dx)
+        const overlapY = (a.h + b.h) / 2 - Math.abs(dy)
+
+        if (overlapX <= 0 || overlapY <= 0) continue
+
+        const aDragged = dragging?.b === a
+        const bDragged = dragging?.b === b
+        const moveA = bDragged ? 1 : aDragged ? 0 : 0.5
+        const moveB = aDragged ? 1 : bDragged ? 0 : 0.5
+
+        if (overlapX < overlapY) {
+          const sign = dx < 0 ? -1 : 1
+          const push = overlapX + 0.5
+          a.x += sign * push * moveA
+          b.x -= sign * push * moveB
+
+          const av = a.vx
+          a.vx = bDragged ? -a.vx * restitution : b.vx * restitution
+          b.vx = aDragged ? -b.vx * restitution : av * restitution
+        } else {
+          const sign = dy < 0 ? -1 : 1
+          const push = overlapY + 0.5
+          a.y += sign * push * moveA
+          b.y -= sign * push * moveB
+
+          const av = a.vy
+          a.vy = bDragged ? -a.vy * restitution : b.vy * restitution
+          b.vy = aDragged ? -b.vy * restitution : av * restitution
+        }
+      }
+    }
+  }
+
+  function step() {
+    const width = window.innerWidth
+    const height = window.innerHeight
+    const gravity = 0.55
+    const damp = 0.72
+    const friction = 0.995
+    for (const b of bodies) {
+      if (dragging && dragging.b === b) {
+        continue
+      }
+      b.vy += gravity
+      b.vx *= friction
+      b.x += b.vx
+      b.y += b.vy
+      if (b.x < 0) {
+        b.x = 0
+        b.vx = -b.vx * damp
+      }
+      if (b.x + b.w > width) {
+        b.x = width - b.w
+        b.vx = -b.vx * damp
+      }
+      if (b.y + b.h > height) {
+        b.y = height - b.h
+        b.vy = -b.vy * damp
+        b.vx *= 0.96
+      }
+      if (b.y < 0) {
+        b.y = 0
+        b.vy = -b.vy * damp
+      }
+    }
+
+    resolveBodyCollisions()
+
+    for (const b of bodies) {
+      b.x = Math.min(Math.max(0, b.x), width - b.w)
+      b.y = Math.min(Math.max(0, b.y), height - b.h)
+      b.el.style.left = `${b.x}px`
+      b.el.style.top = `${b.y}px`
+    }
+    raf = requestAnimationFrame(step)
+  }
+
+  function stop() {
+    if (raf) cancelAnimationFrame(raf)
+    raf = null
+    dragging = null
+
+    const returningBodies = bodies
+    if (returningBodies.length === 0) return
+
+    returningBodies.forEach((b) => {
+      const target = b.source.getBoundingClientRect()
+      b.el.style.transition =
+        'left 420ms cubic-bezier(.2,.8,.3,1), top 420ms cubic-bezier(.2,.8,.3,1), transform 420ms cubic-bezier(.2,.8,.3,1), opacity 260ms ease'
+      b.el.style.left = `${target.left}px`
+      b.el.style.top = `${target.top}px`
+      b.el.style.transform = 'scale(0.98)'
+      b.el.style.opacity = '0.92'
+    })
+
+    returnTimer = window.setTimeout(() => {
+      returningBodies.forEach((b) => b.el.remove())
+      pills.forEach((p) => {
+        p.style.visibility = ''
+      })
+      bodies = []
+      returnTimer = null
+    }, 450)
+    bodies = []
+  }
+
+  function flip() {
+    physicsOn = !physicsOn
+    toggle?.classList.toggle('on', physicsOn)
+    toggle?.setAttribute('aria-checked', String(physicsOn))
+    if (label) label.textContent = physicsOn ? 'on' : 'off'
+    if (physicsOn) start()
+    else stop()
+  }
+
+  toggle?.addEventListener('click', flip)
+  toggle?.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault()
+      flip()
+    }
+  })
+</script>

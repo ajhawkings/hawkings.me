@@ -1,0 +1,51 @@
+---
+import { getCollection } from 'astro:content'
+import BaseLayout from '~/layouts/BaseLayout.astro'
+
+export const prerender = true
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime()
+)
+---
+
+<BaseLayout
+  title="Writing — Angus Hawkings"
+  description="Writing from Angus Hawkings on deployment infrastructure, product, and the modern web."
+>
+  <main class="wrap">
+    <header class="page-hero">
+      <div class="eyebrow"><span class="tick">●</span>&nbsp; WRITING</div>
+      <h1>Notes on how the modern web actually holds together.</h1>
+      <p>
+        Short essays and field notes on deployment platforms, infrastructure
+        trade-offs, and product decisions with sharp edges.
+      </p>
+    </header>
+
+    <section class="section">
+      {
+        posts.length > 0 ? (
+          posts.map((post) => (
+            <a
+              class={`post-row glass ${post.data.draft ? 'soon' : ''}`}
+              href={`/blog/${post.id}/`}
+            >
+              <div class="t">{post.data.title}</div>
+              <div class="d">
+                {post.data.draft
+                  ? 'COMING SOON'
+                  : post.data.pubDate.getFullYear()}
+              </div>
+            </a>
+          ))
+        ) : (
+          <div class="post-row glass soon">
+            <div class="t">No posts published yet.</div>
+            <div class="d">SOON</div>
+          </div>
+        )
+      }
+    </section>
+  </main>
+</BaseLayout>

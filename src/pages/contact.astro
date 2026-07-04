@@ -1,257 +1,109 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro'
 
-// The address we only reveal once a visitor clears the Turnstile challenge.
-const EMAIL = 'hello@hawkings.me'
+export const prerender = true
 
-// Cloudflare's documented "always passes" test keys are used as fallbacks so
-// the page works out of the box in local dev. Set the real keys in production
-// via `.dev.vars` (local) and `wrangler secret put` / Worker vars (deployed).
-// With `nodejs_compat` enabled, Workers expose vars/secrets on `process.env`:
-//   TURNSTILE_SITE_KEY   — public, rendered into the widget
-//   TURNSTILE_SECRET_KEY — secret, used for server-side verification
-// The widget's allowed-domains list (managed in the Turnstile dashboard) must
-// include every host it loads from: hawkings.me, localhost, plus
-// trycloudflare.com and the workers.dev preview domain for tunnel/preview
-// testing — otherwise the widget fails with "110200 — domain not allowed".
-const SITE_KEY = process.env.TURNSTILE_SITE_KEY ?? '1x00000000000000000000AA'
-const SECRET_KEY =
-  process.env.TURNSTILE_SECRET_KEY ?? '1x0000000000000000000000000000000AA'
-
-const SITEVERIFY_URL =
-  'https://challenges.cloudflare.com/turnstile/v0/siteverify'
-
-let verified = false
-let error: string | null = null
-
-if (Astro.request.method === 'POST') {
-  const form = await Astro.request.formData().catch(() => null)
-  const token = form?.get('cf-turnstile-response')
-
-  if (typeof token === 'string' && token.length > 0) {
-    const body = new FormData()
-    body.append('secret', SECRET_KEY)
-    body.append('response', token)
-    const ip = Astro.request.headers.get('CF-Connecting-IP')
-    if (ip) body.append('remoteip', ip)
-
-    try {
-      const res = await fetch(SITEVERIFY_URL, { method: 'POST', body })
-      const data: { success?: boolean } = await res.json()
-      verified = data.success === true
-      if (!verified) error = 'Verification failed — please try again.'
-    } catch {
-      error = 'Could not reach the verification service. Please try again.'
-    }
-  } else {
-    error = 'Please complete the challenge first.'
-  }
-}
+const SITE_KEY =
+  import.meta.env.TURNSTILE_SITE_KEY ?? '1x00000000000000000000AA'
 ---
 
-<BaseLayout title="Say hello — Angus Hawkings" bodyClass="contact">
-  {
-    /* Turnstile script only needs to load when we're actually showing the widget. */
-  }
-  {
-    !verified && (
-      <script
-        slot="head"
-        is:inline
-        src="https://challenges.cloudflare.com/turnstile/v0/api.js"
-        async
-        defer
-      />
-    )
-  }
+<BaseLayout
+  title="Say hello — Angus Hawkings"
+  description="Reveal Angus Hawkings' email address after a quick Cloudflare Turnstile check."
+>
+  <script
+    slot="head"
+    is:inline
+    src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+    async
+    defer></script>
 
   <main class="wrap">
-    <div class="card">
-      <a class="back" href="/">← back</a>
+    <section class="contact-panel glass">
+      <h1>Say hello</h1>
+      <p class="lead">
+        Complete the quick check and I’ll show you the right email address.
+      </p>
 
-      {
-        verified ? (
-          <>
-            <h1>Contact me</h1>
-            <p class="lead">Thanks! Here is my address:</p>
-            <a class="email" href={`mailto:${EMAIL}`} id="email-link">
-              {EMAIL}
-            </a>
-            <button class="copy" id="copy-btn" type="button" data-email={EMAIL}>
-              Copy address
-            </button>
-          </>
-        ) : (
-          <>
-            <h1>Say hello</h1>
-            <p class="lead">Just verify below to get my email:</p>
-            <form method="POST" id="cf-form">
-              <div
-                class="cf-turnstile"
-                data-sitekey={SITE_KEY}
-                data-callback="onTurnstileSuccess"
-                data-theme="light"
-              />
-              <noscript>
-                <p class="note">
-                  JavaScript is required to complete this check.
-                </p>
-              </noscript>
-            </form>
-            {error && <p class="error">{error}</p>}
-          </>
-        )
-      }
-    </div>
+      <form class="contact-form" id="contact-form">
+        <div
+          class="cf-turnstile"
+          data-sitekey={SITE_KEY}
+          data-callback="onTurnstileSuccess"
+        >
+        </div>
+        <noscript>
+          <p class="status error">
+            JavaScript is required to complete this check.
+          </p>
+        </noscript>
+        <p class="status" id="contact-status" aria-live="polite"></p>
+      </form>
+
+      <div class="email-result" id="email-result" hidden>
+        <a class="email-link" id="email-link"></a>
+        <button class="button" id="copy-btn" type="button">Copy address</button>
+      </div>
+    </section>
   </main>
 </BaseLayout>
 
 <script is:inline>
-  // Auto-submit as soon as the widget hands us a token, for a one-tap feel.
-  // Assigned to window so Turnstile's data-callback can resolve it by name.
-  window.onTurnstileSuccess = function () {
-    const form = document.getElementById('cf-form')
-    if (form) form.submit()
-  }
-</script>
+  window.onTurnstileSuccess = async function (token) {
+    const status = document.getElementById('contact-status')
+    const form = document.getElementById('contact-form')
+    const result = document.getElementById('email-result')
+    const emailLink = document.getElementById('email-link')
+    const copyBtn = document.getElementById('copy-btn')
 
-<script>
-  // Copy-to-clipboard for the revealed address (no-op if the button is absent).
-  const btn = document.getElementById('copy-btn') as HTMLButtonElement | null
-  if (btn) {
-    btn.addEventListener('click', async () => {
-      const email = btn.dataset.email ?? ''
+    if (!status || !form || !result || !emailLink || !copyBtn) return
+
+    status.textContent = 'Checking...'
+    status.classList.remove('error')
+
+    const body = new FormData()
+    body.append('cf-turnstile-response', token)
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        body,
+      })
+      const data = await response.json()
+
+      if (!response.ok || !data.email) {
+        throw new Error(data.error || 'Verification failed. Please try again.')
+      }
+
+      emailLink.textContent = data.email
+      emailLink.setAttribute('href', `mailto:${data.email}`)
+      copyBtn.dataset.email = data.email
+      form.hidden = true
+      result.hidden = false
+    } catch (error) {
+      status.textContent =
+        error instanceof Error
+          ? error.message
+          : 'Verification failed. Please try again.'
+      status.classList.add('error')
+      if (window.turnstile) window.turnstile.reset()
+    }
+  }
+
+  document
+    .getElementById('copy-btn')
+    ?.addEventListener('click', async (event) => {
+      const button = event.currentTarget
+      const email = button.dataset.email || ''
       try {
         await navigator.clipboard.writeText(email)
-        const original = btn.textContent
-        btn.textContent = '✓ Copied'
+        const original = button.textContent
+        button.textContent = 'Copied'
         setTimeout(() => {
-          btn.textContent = original
+          button.textContent = original
         }, 1500)
       } catch {
-        /* clipboard unavailable — the mailto link still works */
+        /* The mailto link still works. */
       }
     })
-  }
 </script>
-
-<style>
-  .wrap {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-  }
-  .card {
-    position: relative;
-    width: 100%;
-    max-width: 420px;
-    padding: 38px 36px 32px;
-    border-radius: 28px;
-    text-align: center;
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.62),
-      rgba(255, 255, 255, 0.22) 42%,
-      rgba(255, 255, 255, 0.12)
-    );
-    backdrop-filter: blur(14px) saturate(1.6);
-    -webkit-backdrop-filter: blur(14px) saturate(1.6);
-    box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.7) inset,
-      0 8px 22px rgba(255, 255, 255, 0.25) inset,
-      0 30px 60px -18px rgba(27, 25, 22, 0.32),
-      0 6px 16px -8px rgba(27, 25, 22, 0.25);
-    border: 1px solid rgba(255, 255, 255, 0.55);
-  }
-  .back {
-    position: absolute;
-    top: 18px;
-    left: 20px;
-    font-size: 12px;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: #8f897e;
-    text-decoration: none;
-  }
-  .back:hover {
-    color: #1b1916;
-  }
-  h1 {
-    font-size: clamp(30px, 6vw, 46px);
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    line-height: 1;
-    margin-top: 6px;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-  }
-  .lead {
-    margin: 14px auto 22px;
-    font-size: 14.5px;
-    color: #6f685d;
-    max-width: 32ch;
-    line-height: 1.55;
-  }
-  form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-  }
-  .cf-turnstile {
-    min-height: 65px;
-  }
-  .copy {
-    appearance: none;
-    border: none;
-    cursor: pointer;
-    font-family: inherit;
-    font-weight: 600;
-    font-size: 15px;
-    color: #fff;
-    padding: 12px 24px;
-    border-radius: 40px;
-    background: oklch(0.62 0.17 35);
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
-    transition: filter 0.15s ease;
-  }
-  .copy:hover {
-    filter: brightness(1.06);
-  }
-  .copy {
-    /* inline-flex + fixed min-width: the box stays the exact same size and
-       place whether it reads "Copy address" or "✓ Copied" (no reflow) */
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
-    min-width: 170px;
-    margin-top: 18px;
-    background: rgba(27, 25, 22, 0.08);
-    color: #1b1916;
-    box-shadow: none;
-  }
-  .email {
-    display: block;
-    margin-top: 6px;
-    font-size: clamp(18px, 4vw, 24px);
-    font-weight: 600;
-    color: oklch(0.55 0.17 35);
-    text-decoration: none;
-    word-break: break-all;
-  }
-  .email:hover {
-    text-decoration: underline;
-  }
-  .error {
-    margin-top: 16px;
-    font-size: 13px;
-    color: oklch(0.5 0.2 25);
-  }
-  .note {
-    font-size: 12px;
-    color: #8f897e;
-  }
-</style>

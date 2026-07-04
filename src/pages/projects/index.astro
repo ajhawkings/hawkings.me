@@ -1,0 +1,43 @@
+---
+import { getCollection } from 'astro:content'
+import ProjectCard from '~/components/ProjectCard.astro'
+import BaseLayout from '~/layouts/BaseLayout.astro'
+
+export const prerender = true
+
+const projects = (await getCollection('projects')).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+)
+---
+
+<BaseLayout
+  title="Projects — Angus Hawkings"
+  description="Selected product, engineering and infrastructure projects from Angus Hawkings."
+>
+  <main class="wrap">
+    <header class="page-hero">
+      <div class="eyebrow"><span class="tick">●</span>&nbsp; SELECTED WORK</div>
+      <h1>Projects with a product brain and an infrastructure spine.</h1>
+      <p>
+        Notes and case studies from Cloudflare, side projects, and the
+        unglamorous systems that make the web feel fast.
+      </p>
+    </header>
+
+    <section class="section">
+      <div class="cards">
+        {
+          projects.map((project) => (
+            <ProjectCard
+              href={`/projects/${project.id}/`}
+              tag={project.data.tag}
+              title={project.data.title}
+              description={project.data.description}
+              label={project.data.linkLabel}
+            />
+          ))
+        }
+      </div>
+    </section>
+  </main>
+</BaseLayout>

@@ -1,0 +1,24 @@
+---
+interface Props {
+  href: string
+  tag: string
+  title: string
+  description: string
+  label?: string
+}
+
+const {
+  href,
+  tag,
+  title,
+  description,
+  label = 'Read the case study',
+} = Astro.props
+---
+
+<a class="card glass" href={href}>
+  <div class="tag">{tag}</div>
+  <h3>{title}</h3>
+  <p>{description}</p>
+  <div class="more">{label}</div>
+</a>
