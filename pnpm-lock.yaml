@@ -12,13 +12,13 @@ importers:
         specifier: ^0.9.9
         version: 0.9.9(prettier-plugin-astro@0.14.1)(prettier@3.9.4)(typescript@6.0.3)
       '@astrojs/cloudflare':
-        specifier: ^14.0.1
+        specifier: ^14.1.1
         version: 14.1.1(@types/node@26.1.0)(astro@7.0.6(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@26.1.0)(rollup@4.60.4)(yaml@2.9.0))(esbuild@0.28.1)(workerd@1.20260701.1)(wrangler@4.107.0)(yaml@2.9.0)
       '@astrojs/sitemap':
-        specifier: ^3.6.0
+        specifier: ^3.7.3
         version: 3.7.3
       astro:
-        specifier: ^7.0.3
+        specifier: ^7.0.6
         version: 7.0.6(@emnapi/core@1.11.1)(@emnapi/runtime@1.11.1)(@types/node@26.1.0)(rollup@4.60.4)(yaml@2.9.0)
     devDependencies:
       '@eslint/js':
