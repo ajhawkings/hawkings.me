@@ -1,15 +1,9 @@
 {
   "main": "@astrojs/cloudflare/entrypoints/server",
   "name": "personal-website",
-  "compatibility_date": "2026-01-27",
-  "compatibility_flags": [
-    "nodejs_compat",
-    "global_fetch_strictly_public"
-  ],
+  "compatibility_date": "2026-06-10",
+  "compatibility_flags": ["nodejs_compat"],
   "vars": {
-    // Public Turnstile site key — safe to commit. The matching secret is NOT
-    // here: set it locally in .dev.vars and in prod via `wrangler secret put
-    // TURNSTILE_SECRET_KEY`.
     "TURNSTILE_SITE_KEY": "0x4AAAAAADf2GQpDedyQV470"
   },
   "assets": {

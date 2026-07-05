@@ -7,22 +7,74 @@ test.describe('Contact (Turnstile-gated email)', () => {
     const html = await res.text()
 
     expect(html).toContain('cf-turnstile')
-    expect(html).toContain('id="cf-form"')
+    expect(html).toContain('id="contact-form"')
     // Email must stay hidden until verification succeeds.
     expect(html).not.toContain('hello@hawkings.me')
   })
 
-  test('a POST without a token keeps the email hidden', async ({ request }) => {
-    // No token means we never even call siteverify, so this is stable
-    // regardless of whether real or test Turnstile keys are configured.
-    // (Origin header satisfies Astro's built-in CSRF check for form POSTs.)
-    const res = await request.post('/contact', {
-      headers: { Origin: 'http://localhost:4321' },
+  test('a verification POST without a token keeps the email hidden', async ({
+    request,
+  }) => {
+    const res = await request.post('/api/contact', {
+      headers: { Origin: 'http://127.0.0.1:4321' },
       form: { 'cf-turnstile-response': '' },
     })
-    expect(res.status()).toBe(200)
-    const html = await res.text()
-    expect(html).not.toContain('hello@hawkings.me')
-    expect(html).toContain('cf-turnstile')
+    expect(res.status()).toBe(400)
+    const json = await res.json()
+    expect(json.email).toBeUndefined()
+    expect(json.error).toContain('challenge')
+  })
+
+  test('reveals the email after a successful client verification', async ({
+    page,
+  }) => {
+    await page.route('/api/contact', async (route) => {
+      await route.fulfill({
+        contentType: 'application/json',
+        body: JSON.stringify({ email: 'hello@hawkings.me' }),
+      })
+    })
+
+    await page.goto('/contact')
+    await page.evaluate(() => {
+      ;(
+        window as unknown as Window & {
+          onTurnstileSuccess: (token: string) => Promise<void>
+        }
+      ).onTurnstileSuccess('test-token')
+    })
+
+    const email = page.locator('#email-link')
+    await expect(email).toHaveText('hello@hawkings.me')
+    await expect(email).toHaveAttribute('href', 'mailto:hello@hawkings.me')
+    await expect(page.locator('#contact-form')).toBeHidden()
+  })
+
+  test('shows API verification failures without revealing the email', async ({
+    page,
+  }) => {
+    await page.route('/api/contact', async (route) => {
+      await route.fulfill({
+        status: 403,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          error: 'Verification failed. Please try again.',
+        }),
+      })
+    })
+
+    await page.goto('/contact')
+    await page.evaluate(() => {
+      ;(
+        window as unknown as Window & {
+          onTurnstileSuccess: (token: string) => Promise<void>
+        }
+      ).onTurnstileSuccess('bad-token')
+    })
+
+    await expect(page.locator('#contact-status')).toContainText(
+      'Verification failed'
+    )
+    await expect(page.locator('#email-result')).toBeHidden()
   })
 })

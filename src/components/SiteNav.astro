@@ -1,0 +1,48 @@
+<nav class="site-nav glass" aria-label="Main navigation">
+  <a class="brand" href="/">Angus Hawkings</a>
+  <div class="nav-actions">
+    <a class="nav-link cta" href="/contact">Say hello</a>
+    <button
+      class="icon-button theme-toggle"
+      type="button"
+      aria-label="Toggle dark mode"
+    >
+      <svg
+        class="moon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <path d="M12 3a6.8 6.8 0 0 0 8.7 8.7A8.5 8.5 0 1 1 12 3Z"></path>
+      </svg>
+      <svg
+        class="sun"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke-width="2"
+        aria-hidden="true"
+      >
+        <circle cx="12" cy="12" r="4"></circle>
+        <path
+          d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"
+        ></path>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+<script>
+  const root = document.documentElement
+  const themeToggle = document.querySelector<HTMLButtonElement>('.theme-toggle')
+
+  themeToggle?.addEventListener('click', () => {
+    const next = root.dataset.theme === 'dark' ? 'light' : 'dark'
+    root.dataset.theme = next
+    try {
+      localStorage.setItem('theme', next)
+    } catch {
+      /* storage blocked — the theme still applies for this page view */
+    }
+  })
+</script>

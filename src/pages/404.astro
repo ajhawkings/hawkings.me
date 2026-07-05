@@ -4,9 +4,9 @@ import BaseLayout from '~/layouts/BaseLayout.astro'
 Astro.response.status = 404
 ---
 
-<BaseLayout title="404 — Angus Hawkings" description="Page not found">
+<BaseLayout title="404 — Angus Hawkings" description="Page not found" noIndex>
   <main class="wrap">
-    <div class="card">
+    <div class="card glass">
       <h1>404</h1>
       <p>Nothing here.</p>
       <a class="home" href="/">← back home</a>
@@ -16,29 +16,14 @@ Astro.response.status = 404
 
 <style>
   .wrap {
-    position: absolute;
-    inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 24px;
+    padding: 90px 24px 80px;
   }
   .card {
     text-align: center;
     padding: 38px 44px;
-    border-radius: 28px;
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.6),
-      rgba(255, 255, 255, 0.18) 42%,
-      rgba(255, 255, 255, 0.1)
-    );
-    backdrop-filter: blur(14px) saturate(1.6);
-    -webkit-backdrop-filter: blur(14px) saturate(1.6);
-    box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.7) inset,
-      0 30px 60px -18px rgba(27, 25, 22, 0.32);
-    border: 1px solid rgba(255, 255, 255, 0.55);
   }
   h1 {
     font-size: clamp(56px, 12vw, 96px);
@@ -49,13 +34,13 @@ Astro.response.status = 404
   p {
     margin: 10px 0 20px;
     font-size: 15px;
-    color: #6f685d;
+    color: var(--muted);
   }
   .home {
     font-size: 13px;
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: oklch(0.55 0.17 35);
+    color: var(--accent);
     text-decoration: none;
   }
   .home:hover {

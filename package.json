@@ -1,6 +1,6 @@
 {
   "name": "hawkings.me",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "type": "module",
   "scripts": {
     "dev": "astro dev",
@@ -14,8 +14,9 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.9",
-    "@astrojs/cloudflare": "^14.0.1",
-    "astro": "^7.0.3"
+    "@astrojs/cloudflare": "^14.1.1",
+    "@astrojs/sitemap": "^3.7.3",
+    "astro": "^7.0.6"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
