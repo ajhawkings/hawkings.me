@@ -1,4 +1,5 @@
 ---
+import { Font } from 'astro:assets'
 import SiteNav from '~/components/SiteNav.astro'
 import '~/styles/global.css'
 
@@ -19,8 +20,6 @@ const canonicalPath =
   Astro.url.pathname === '/' ? '/' : `${Astro.url.pathname.replace(/\/$/, '')}/`
 const canonical = new URL(canonicalPath, Astro.site)
 const ogImage = new URL(image, Astro.site)
-const fontHref =
-  'https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Geist+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap'
 const structuredData = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -84,17 +83,9 @@ const structuredData = {
             ? 'dark'
             : 'light'
     </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="preload"
-      as="style"
-      href={fontHref}
-      onload={'this.onload=null;this.rel="stylesheet"'}
-    />
-    <noscript>
-      <link rel="stylesheet" href={fontHref} />
-    </noscript>
+    <Font cssVariable="--font-bricolage" preload />
+    <Font cssVariable="--font-instrument" />
+    <Font cssVariable="--font-geist-mono" />
     <meta name="description" content={description} />
     {noIndex && <meta name="robots" content="noindex" />}
     <link rel="canonical" href={canonical} />
