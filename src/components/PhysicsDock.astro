@@ -84,12 +84,13 @@
   .pill {
     display: inline-flex;
     align-items: center;
+    text-align: left;
     gap: 10px;
-    padding: 12px 20px;
+    padding: 12px 16px;
     border-radius: 16px;
     color: #fff;
     cursor: pointer;
-    font-size: 14.5px;
+    font-size: 15px;
     font-weight: 600;
     text-decoration: none;
     user-select: none;
@@ -104,8 +105,8 @@
 
   .pill svg {
     flex-shrink: 0;
-    width: 17px;
-    height: 17px;
+    width: 24px;
+    height: 24px;
     fill: currentColor;
   }
 
@@ -225,6 +226,10 @@
     pointerId: number
   } = null
 
+  function hasModifier(event: MouseEvent) {
+    return event.metaKey || event.ctrlKey || event.shiftKey || event.altKey
+  }
+
   function navigateFrom(el: HTMLElement) {
     const link = el as HTMLAnchorElement
     if (!link.href) return
@@ -260,10 +265,16 @@
         vy: -6 - Math.random() * 6,
       }
       clone.addEventListener('click', (event) => {
+        // Modified clicks (cmd/ctrl/shift/alt) keep their native behaviour,
+        // e.g. open in a new tab.
+        if (hasModifier(event)) return
         event.preventDefault()
         if (event.detail === 0) navigateFrom(clone)
       })
       clone.addEventListener('pointerdown', (event) => {
+        // Only the primary button drags; middle/right clicks keep their
+        // native behaviour (new tab, context menu).
+        if (event.button !== 0 || !event.isPrimary) return
         event.preventDefault()
         dragging = {
           b,
@@ -306,7 +317,8 @@
             clone.releasePointerCapture(dragging.pointerId)
           }
           dragging = null
-          if (shouldClick) navigateFrom(clone)
+          // Modified taps fall through to the click handler's native path.
+          if (shouldClick && !hasModifier(event)) navigateFrom(clone)
           return
         }
         dragging = null

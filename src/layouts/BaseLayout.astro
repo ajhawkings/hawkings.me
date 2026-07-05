@@ -26,9 +26,9 @@ const structuredData = {
   '@graph': [
     {
       '@type': 'Person',
-      '@id': 'https://hawkings.me/#person',
+      '@id': 'https://www.hawkings.me/#person',
       name: 'Angus Hawkings',
-      url: 'https://hawkings.me/',
+      url: 'https://www.hawkings.me/',
       jobTitle: 'Product Manager Intern',
       affiliation: [
         {
@@ -50,12 +50,12 @@ const structuredData = {
     },
     {
       '@type': 'WebSite',
-      '@id': 'https://hawkings.me/#website',
-      url: 'https://hawkings.me/',
+      '@id': 'https://www.hawkings.me/#website',
+      url: 'https://www.hawkings.me/',
       name: 'Angus Hawkings',
       inLanguage: 'en-GB',
       publisher: {
-        '@id': 'https://hawkings.me/#person',
+        '@id': 'https://www.hawkings.me/#person',
       },
     },
   ],
@@ -68,12 +68,21 @@ const structuredData = {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script is:inline>
-      const storedTheme = localStorage.getItem('theme')
+      let storedTheme = null
+      try {
+        storedTheme = localStorage.getItem('theme')
+      } catch {
+        /* storage blocked — fall back to the system preference */
+      }
       const systemDark = window.matchMedia(
         '(prefers-color-scheme: dark)'
       ).matches
       document.documentElement.dataset.theme =
-        storedTheme || (systemDark ? 'dark' : 'light')
+        storedTheme === 'dark' || storedTheme === 'light'
+          ? storedTheme
+          : systemDark
+            ? 'dark'
+            : 'light'
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

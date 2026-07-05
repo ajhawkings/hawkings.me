@@ -36,8 +36,9 @@ const SITE_KEY = process.env.TURNSTILE_SITE_KEY ?? '1x00000000000000000000AA'
             JavaScript is required to complete this check.
           </p>
         </noscript>
-        <p class="status" id="contact-status" aria-live="polite"></p>
       </form>
+
+      <p class="status" id="contact-status" aria-live="polite"></p>
 
       <div class="email-result" id="email-result" hidden>
         <a class="email-link" id="email-link"></a>
@@ -68,10 +69,12 @@ const SITE_KEY = process.env.TURNSTILE_SITE_KEY ?? '1x00000000000000000000AA'
         method: 'POST',
         body,
       })
-      const data = await response.json()
+      // Guard the parse: an upstream error page (e.g. a Cloudflare 5xx) is
+      // HTML, and a raw SyntaxError message must never reach the visitor.
+      const data = await response.json().catch(() => null)
 
-      if (!response.ok || !data.email) {
-        throw new Error(data.error || 'Verification failed. Please try again.')
+      if (!response.ok || !data?.email) {
+        throw new Error(data?.error || 'Verification failed. Please try again.')
       }
 
       emailLink.textContent = data.email
@@ -79,9 +82,13 @@ const SITE_KEY = process.env.TURNSTILE_SITE_KEY ?? '1x00000000000000000000AA'
       copyBtn.dataset.email = data.email
       form.hidden = true
       result.hidden = false
+      status.textContent = 'Verified — here is the address.'
+      emailLink.focus()
     } catch (error) {
+      // Only surface messages we threw ourselves; a network-level TypeError
+      // ("Failed to fetch") is not user-friendly copy.
       status.textContent =
-        error instanceof Error
+        error instanceof Error && !(error instanceof TypeError)
           ? error.message
           : 'Verification failed. Please try again.'
       status.classList.add('error')
@@ -89,20 +96,21 @@ const SITE_KEY = process.env.TURNSTILE_SITE_KEY ?? '1x00000000000000000000AA'
     }
   }
 
-  document
-    .getElementById('copy-btn')
-    ?.addEventListener('click', async (event) => {
-      const button = event.currentTarget
-      const email = button.dataset.email || ''
+  const copyBtn = document.getElementById('copy-btn')
+  if (copyBtn) {
+    const copyLabel = copyBtn.textContent
+    let copyResetTimer
+    copyBtn.addEventListener('click', async () => {
       try {
-        await navigator.clipboard.writeText(email)
-        const original = button.textContent
-        button.textContent = 'Copied'
-        setTimeout(() => {
-          button.textContent = original
+        await navigator.clipboard.writeText(copyBtn.dataset.email || '')
+        copyBtn.textContent = 'Copied'
+        clearTimeout(copyResetTimer)
+        copyResetTimer = setTimeout(() => {
+          copyBtn.textContent = copyLabel
         }, 1500)
       } catch {
         /* The mailto link still works. */
       }
     })
+  }
 </script>

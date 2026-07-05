@@ -1,15 +1,31 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <rect width="100" height="100" fill="#3b82f6"/>
+  <defs>
+    <radialGradient id="blue" cx="0.16" cy="0.12" r="1">
+      <stop offset="0" stop-color="#3a77c2" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#3a77c2" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orange" cx="0.88" cy="0.92" r="0.9">
+      <stop offset="0" stop-color="#f6821f" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#f6821f" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="tile"><rect width="100" height="100" rx="24"/></clipPath>
+  </defs>
+  <g clip-path="url(#tile)">
+    <rect width="100" height="100" fill="#0d1420"/>
+    <rect width="100" height="100" fill="url(#blue)"/>
+    <rect width="100" height="100" fill="url(#orange)"/>
+  </g>
+  <rect x="1" y="1" width="98" height="98" rx="23" fill="none" stroke="#ffffff" stroke-opacity="0.22" stroke-width="2"/>
   <text
     x="50"
-    y="50"
-    font-family="system-ui, sans-serif"
-    font-size="72"
-    font-weight="bold"
+    y="51"
+    font-family="system-ui, -apple-system, sans-serif"
+    font-size="60"
+    font-weight="800"
     fill="#ffffff"
     text-anchor="middle"
     dominant-baseline="central"
-    textLength="94"
+    textLength="88"
     lengthAdjust="spacingAndGlyphs"
   >
     AH

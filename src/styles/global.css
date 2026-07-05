@@ -51,7 +51,7 @@ html {
 body {
   min-height: 100vh;
   overflow-x: hidden;
-  background: #eef2f7;
+  background: var(--sky-1);
   color: var(--ink);
   font-family: 'Instrument Sans', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -123,6 +123,25 @@ textarea {
   background: var(--blob-3);
   opacity: 0.45;
   animation: drift1 38s ease-in-out infinite alternate-reverse;
+}
+
+/* Dark mode: a calmer sky — just a blue and an orange glow in opposite
+   corners, at lower intensity than the light theme. */
+[data-theme='dark'] .blob {
+  opacity: 0.3;
+}
+
+[data-theme='dark'] .blob.b2 {
+  display: none;
+}
+
+[data-theme='dark'] .blob.b3 {
+  left: auto;
+  right: -10vw;
+  bottom: -12vw;
+  width: 38vw;
+  height: 38vw;
+  opacity: 0.26;
 }
 
 @keyframes drift1 {
@@ -298,6 +317,7 @@ h3 {
 }
 
 .chips {
+  list-style: none;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

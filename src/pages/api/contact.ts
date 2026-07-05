@@ -18,10 +18,19 @@ export const POST: APIRoute = async ({ request, clientAddress }) => {
   }
 
   // Runtime Worker secret (set via `wrangler secret put`); nodejs_compat
-  // exposes it on process.env. import.meta.env is build-time only and would
-  // silently fall back to the always-pass test key in production.
+  // exposes it on process.env. The always-pass test key is a dev-only
+  // fallback: in production a missing secret must fail closed, because the
+  // test key verifies any token and would silently disable the gate.
   const secret =
-    process.env.TURNSTILE_SECRET_KEY ?? '1x0000000000000000000000000000000AA'
+    process.env.TURNSTILE_SECRET_KEY ??
+    (import.meta.env.DEV ? '1x0000000000000000000000000000000AA' : undefined)
+
+  if (!secret) {
+    return Response.json(
+      { error: 'Verification is not configured. Please try again later.' },
+      { status: 500 }
+    )
+  }
   const body = new FormData()
   body.append('secret', secret)
   body.append('response', token)

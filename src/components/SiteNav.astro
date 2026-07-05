@@ -1,7 +1,3 @@
----
-
----
-
 <nav class="site-nav glass" aria-label="Main navigation">
   <a class="brand" href="/">Angus Hawkings</a>
   <div class="nav-actions">
@@ -43,6 +39,10 @@
   themeToggle?.addEventListener('click', () => {
     const next = root.dataset.theme === 'dark' ? 'light' : 'dark'
     root.dataset.theme = next
-    localStorage.setItem('theme', next)
+    try {
+      localStorage.setItem('theme', next)
+    } catch {
+      /* storage blocked — the theme still applies for this page view */
+    }
   })
 </script>

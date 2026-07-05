@@ -4,7 +4,12 @@ import sitemap from '@astrojs/sitemap'
 
 export default defineConfig({
   output: 'server',
-  prefetch: true,
+  // Prefetch every internal link as soon as it enters the viewport, so
+  // navigation feels instant (SPA-like) without client-side routing.
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: 'viewport',
+  },
   devToolbar: {
     enabled: false,
   },
@@ -14,6 +19,6 @@ export default defineConfig({
       enabled: true,
     },
   }),
-  site: 'https://hawkings.me',
+  site: 'https://www.hawkings.me',
   integrations: [sitemap()],
 })

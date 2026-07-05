@@ -16,7 +16,7 @@ test.describe('Contact (Turnstile-gated email)', () => {
     request,
   }) => {
     const res = await request.post('/api/contact', {
-      headers: { Origin: 'http://localhost:4321' },
+      headers: { Origin: 'http://127.0.0.1:4321' },
       form: { 'cf-turnstile-response': '' },
     })
     expect(res.status()).toBe(400)
