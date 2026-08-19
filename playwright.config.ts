@@ -48,10 +48,12 @@ export default defineConfig({
 
   /* Run your local dev server before starting the tests */
   webServer: {
-    // Invoke the astro binary directly (not `pnpm run dev`) so Playwright can
-    // kill the server process cleanly on teardown. The URL must use
-    // 127.0.0.1: `localhost` can resolve to ::1, which the server isn't on.
+    // Invoke the Astro binary directly so Playwright can kill the server on
+    // teardown. Astro 7 backgrounds dev servers in detected agent environments
+    // unless ASTRO_DEV_BACKGROUND is set, so opt out of that auto-detection.
+    // Use 127.0.0.1 because localhost can resolve to ::1.
     command: './node_modules/.bin/astro dev --host 127.0.0.1',
+    env: { ASTRO_DEV_BACKGROUND: '0' },
     url: 'http://127.0.0.1:4321',
     reuseExistingServer: !process.env.CI,
     timeout: 120 * 1000,
