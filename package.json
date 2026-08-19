@@ -13,28 +13,28 @@
     "test:report": "playwright show-report"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.9",
-    "@astrojs/cloudflare": "^14.1.1",
+    "@astrojs/check": "^0.9.10",
+    "@astrojs/cloudflare": "^14.2.1",
     "@astrojs/sitemap": "^3.7.3",
-    "astro": "^7.0.6"
+    "astro": "^7.2.2"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@playwright/test": "^1.61.1",
-    "@types/node": "^26.0.1",
-    "@typescript-eslint/parser": "^8.62.0",
-    "eslint": "^10.6.0",
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^26.2.0",
+    "@typescript-eslint/parser": "^8.67.0",
+    "eslint": "^10.8.1",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-astro": "^2.1.1",
-    "prettier": "^3.9.0",
+    "eslint-plugin-astro": "^3.1.0",
+    "prettier": "^3.9.6",
     "prettier-plugin-astro": "^0.14.1",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.62.0",
-    "wrangler": "^4.105.0"
+    "typescript-eslint": "^8.67.0",
+    "wrangler": "^4.123.0"
   },
   "engines": {
     "node": ">=24",
-    "pnpm": ">=11.9.0"
+    "pnpm": ">=11.22.0"
   },
-  "packageManager": "pnpm@11.9.0"
+  "packageManager": "pnpm@11.22.0"
 }
