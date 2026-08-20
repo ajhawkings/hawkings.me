@@ -4,7 +4,7 @@ This file provides guidance for coding agents working in this repository.
 
 ## Project Overview
 
-Personal website for Angus Hawkings (hawkings.me), built with Astro 5 and deployed to Cloudflare Workers.
+Personal website for Angus Hawkings (hawkings.me), built with Astro 7 and deployed to Cloudflare Workers.
 
 ## Commands
 
