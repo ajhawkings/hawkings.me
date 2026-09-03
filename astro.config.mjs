@@ -22,31 +22,58 @@ export default defineConfig({
   site: 'https://www.hawkings.me',
   fonts: [
     {
-      provider: fontProviders.google(),
+      provider: fontProviders.local(),
       name: 'Bricolage Grotesque',
       cssVariable: '--font-bricolage',
       weights: ['500 700'],
       styles: ['normal'],
       subsets: ['latin'],
       fallbacks: ['sans-serif'],
+      options: {
+        variants: [
+          {
+            src: ['./src/assets/fonts/bricolage-grotesque-latin.woff2'],
+            weight: '500 700',
+            style: 'normal',
+          },
+        ],
+      },
     },
     {
-      provider: fontProviders.google(),
+      provider: fontProviders.local(),
       name: 'Instrument Sans',
       cssVariable: '--font-instrument',
-      weights: [400, 500, 600],
+      weights: ['400 600'],
       styles: ['normal'],
       subsets: ['latin'],
       fallbacks: ['system-ui', 'sans-serif'],
+      options: {
+        variants: [
+          {
+            src: ['./src/assets/fonts/instrument-sans-latin.woff2'],
+            weight: '400 600',
+            style: 'normal',
+          },
+        ],
+      },
     },
     {
-      provider: fontProviders.google(),
+      provider: fontProviders.local(),
       name: 'Geist Mono',
       cssVariable: '--font-geist-mono',
-      weights: [400, 500],
+      weights: ['400 500'],
       styles: ['normal'],
       subsets: ['latin'],
       fallbacks: ['monospace'],
+      options: {
+        variants: [
+          {
+            src: ['./src/assets/fonts/geist-mono-latin.woff2'],
+            weight: '400 500',
+            style: 'normal',
+          },
+        ],
+      },
     },
   ],
   integrations: [sitemap()],
