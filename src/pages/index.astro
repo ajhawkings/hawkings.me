@@ -7,39 +7,29 @@ export const prerender = true
 
 <BaseLayout
   title="Angus Hawkings"
-  description="Computer Science student at the University of Edinburgh. Product Manager Intern at Cloudflare. Passionate about technology, web infrastructure and design."
+  description="Computer Science student at the University of Edinburgh, currently on exchange at ETH Zürich. Previously a Product Manager Intern at Cloudflare, working on skew protection for Workers."
 >
   <main class="wrap">
     <header class="hero">
-      <h1>
-        Hi, I'm Angus. <br />Product Manager. <br />Passionate about technology.
-      </h1>
-      <ul class="chips" aria-label="Current focus">
-        <li class="chip glass">
-          <span class="chip-label">Product Manager Intern at </span>
-          <span class="chip-value orange">Cloudflare</span>
-        </li>
-        <li class="chip glass">
-          <span class="chip-label">Computer Science at </span>
-          <span class="chip-value uoe">The University of Edinburgh</span>
-        </li>
-        <li class="chip glass">
-          <span class="chip-label">Incoming Exchange Student at </span>
-          <span class="chip-value eth">ETH Zürich</span>
-        </li>
-      </ul>
+      <h1>Hi, I'm Angus.<br />I build products for the internet.</h1>
+
+      <p class="career-highlight">
+        Most recently, I was a <strong class="orange"
+          >Product Manager Intern at Cloudflare</strong
+        >, where I worked on <strong
+          >skew protection for Cloudflare Workers</strong
+        >
+        <span class="coming-soon">– coming soon.</span>
+      </p>
+
       <p class="hero-sub">
-        I'm a <strong>Computer Science student</strong> going into my third year.
-        I have a passion for web infrastructure, technology and design. Currently
-        at <span class="orange">Cloudflare</span> as a Product Manager Intern, working
-        on versions & deployments for Workers
+        I'm now spending the third year of my Computer Science degree at the
+        University of Edinburgh on exchange at <strong class="eth"
+          >ETH Zürich</strong
+        >. I'm interested in web infrastructure, AI, technology and design.
       </p>
 
       <PhysicsDock />
     </header>
-
-    <footer class="footer">
-      BUILT WITH ASTRO · RUNS ON CLOUDFLARE WORKERS
-    </footer>
   </main>
 </BaseLayout>

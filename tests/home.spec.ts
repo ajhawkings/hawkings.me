@@ -5,7 +5,18 @@ test.describe('Home (physics)', () => {
     await page.goto('/')
     await expect(page).toHaveTitle(/Angus Hawkings/)
     await expect(page.locator('main h1')).toContainText("Hi, I'm Angus")
-    await expect(page.locator('main h1')).toContainText('Product Manager')
+    await expect(page.locator('main h1')).toContainText(
+      'I build products for the internet.'
+    )
+    await expect(page.locator('.career-highlight')).toContainText(
+      'Product Manager Intern at Cloudflare'
+    )
+    await expect(page.locator('.career-highlight')).toContainText(
+      'skew protection for Cloudflare Workers'
+    )
+    await expect(page.locator('.hero-sub')).toContainText('ETH Zürich')
+    await expect(page.locator('.chip')).toHaveCount(0)
+    await expect(page.getByText(/built with astro/i)).toHaveCount(0)
   })
 
   test('should spawn the four draggable link pills', async ({ page }) => {
