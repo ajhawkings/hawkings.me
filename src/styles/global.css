@@ -284,8 +284,8 @@ textarea {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 28px;
-  padding: 64px 0 36px;
+  gap: 36px;
+  padding: 72px 0 128px;
   text-align: center;
 }
 
@@ -297,71 +297,47 @@ h3 {
 
 .hero h1 {
   margin: 0;
-  font-size: clamp(60px, 7vw, 70px);
+  max-width: 900px;
+  font-size: clamp(54px, 6vw, 66px);
   font-weight: 700;
   line-height: 0.98;
-  letter-spacing: 0;
+  letter-spacing: -0.025em;
 }
 
+.career-highlight,
 .hero-sub {
-  max-width: 580px;
+  max-width: 720px;
   margin: 0 auto;
   color: var(--muted);
-  font-size: 19px;
-  line-height: 1.65;
+  font-size: 20px;
+  line-height: 1.6;
+  text-wrap: pretty;
 }
 
-.hero-sub strong {
-  color: var(--ink);
+.career-highlight + .hero-sub {
+  margin-top: -20px;
+}
+
+.hero-sub + * {
+  margin-top: 16px;
+}
+
+.hero .orange,
+.hero .eth {
   font-weight: 600;
 }
 
-.chips {
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
-  max-width: 920px;
-  margin: 0 auto;
-}
-
-.chip {
-  display: inline-block;
-  padding: 7px 13px;
-  border-radius: 999px;
-  color: var(--ink);
-  font-size: 13.5px;
-  font-weight: 500;
-  line-height: 1.2;
-  text-align: center;
-}
-
-.orange,
-.uoe,
-.eth {
-  font-weight: 600;
-}
-
-.orange {
+.hero .orange {
   color: var(--accent);
 }
 
-.uoe {
-  color: #1d5fa7;
+/* ETH Zürich brand blue; lightened in dark mode to keep AA contrast. */
+.hero .eth {
+  color: #215caf;
 }
 
-.eth {
-  color: #8b1e2d;
-}
-
-.footer {
-  padding: 10px 0 40px;
-  color: var(--faint);
-  font-family: var(--font-geist-mono);
-  font-size: 11.5px;
-  letter-spacing: 0.06em;
-  text-align: center;
+[data-theme='dark'] .hero .eth {
+  color: #82b1f5;
 }
 
 .contact-panel {
@@ -453,19 +429,15 @@ h3 {
   }
 
   .hero {
-    padding: 64px 0 48px;
+    padding: 56px 0 96px;
   }
 
   .hero h1 {
-    font-size: clamp(30px, 10vw, 72px);
+    font-size: clamp(46px, 14vw, 58px);
   }
 
+  .career-highlight,
   .hero-sub {
-    font-size: 17px;
-  }
-
-  .chip {
-    font-size: 14px;
-    padding: 8px 14px;
+    font-size: 19.5px;
   }
 }

@@ -4,6 +4,9 @@ import sitemap from '@astrojs/sitemap'
 
 export default defineConfig({
   output: 'server',
+  // This site does not use Astro sessions. The Cloudflare adapter otherwise
+  // adds an unconfigured SESSION KV binding, which preview deployments reject.
+  session: false,
   // Prefetch every internal link as soon as it enters the viewport, so
   // navigation feels instant (SPA-like) without client-side routing.
   prefetch: {

@@ -25,8 +25,8 @@ prerendering with `export const prerender = true`.
 
 **Pages** (`src/pages/`):
 
-- `index.astro` - Hero with name, focus chips, and the `PhysicsDock`
-  social-links component.
+- `index.astro` - Text-led hero highlighting Cloudflare experience and ETH
+  Zürich exchange, followed by the `PhysicsDock` social-links component.
 - `contact.astro` - A Cloudflare Turnstile-gated page. The client posts the
   challenge token to `/api/contact`, which reveals the email address only on
   success.
