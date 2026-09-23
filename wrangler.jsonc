@@ -12,5 +12,10 @@
   },
   "observability": {
     "enabled": true
+  },
+  "previews": {
+    "vars": {
+      "TURNSTILE_SITE_KEY": "0x4AAAAAADf2GQpDedyQV470"
+    }
   }
 }
