@@ -58,9 +58,7 @@
     role="switch"
     aria-checked="false"
   >
-    <span>gravity</span><span class="switch"></span><span id="gravLabel"
-      >off</span
-    >
+    <span class="switch" aria-hidden="true"></span><span>Gravity</span>
   </button>
 </div>
 
@@ -134,48 +132,55 @@
   }
 
   .gravity {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 6px 10px;
-    border: 0;
+    padding: 6px 12px 6px 7px;
+    border: 1px solid transparent;
     border-radius: 999px;
     background: transparent;
     color: var(--faint);
     cursor: pointer;
-    font-family: var(--font-geist-mono);
-    font-size: 10.5px;
-    letter-spacing: 0.12em;
-    opacity: 0.55;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1;
     user-select: none;
-    transition: opacity 0.2s;
+    transition:
+      color 0.2s,
+      background 0.2s,
+      border-color 0.2s;
   }
 
   .gravity:hover,
-  .gravity:focus-visible {
-    opacity: 1;
+  .gravity:focus-visible,
+  .gravity.on {
+    border-color: var(--glass-border);
+    background: var(--glass);
+    color: var(--ink);
   }
 
   .gravity .switch {
     position: relative;
-    width: 28px;
-    height: 16px;
+    flex-shrink: 0;
+    width: 30px;
+    height: 18px;
     border-radius: 999px;
-    background: rgba(120, 130, 145, 0.35);
+    background: color-mix(in srgb, var(--faint) 45%, transparent);
     transition: background 0.2s;
   }
 
   .gravity .switch::after {
     position: absolute;
-    top: 2.5px;
-    left: 3px;
-    width: 11px;
-    height: 11px;
+    top: 2px;
+    left: 2px;
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
     background: #fff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     content: '';
-    transition: transform 0.2s;
+    transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.3, 1);
   }
 
   .gravity.on .switch {
@@ -183,7 +188,7 @@
   }
 
   .gravity.on .switch::after {
-    transform: translateX(11px);
+    transform: translateX(12px);
   }
 
   @media (max-width: 800px) {
@@ -196,7 +201,6 @@
 
 <script>
   const toggle = document.getElementById('gravity')
-  const label = document.getElementById('gravLabel')
   const pills = Array.from(
     document.querySelectorAll<HTMLElement>('[data-phys]')
   )
@@ -448,7 +452,6 @@
     physicsOn = !physicsOn
     toggle?.classList.toggle('on', physicsOn)
     toggle?.setAttribute('aria-checked', String(physicsOn))
-    if (label) label.textContent = physicsOn ? 'on' : 'off'
     if (physicsOn) start()
     else stop()
   }
