@@ -15,8 +15,8 @@ const SITE_KEY = process.env.TURNSTILE_SITE_KEY ?? '1x00000000000000000000AA'
     is:inline
     src="https://challenges.cloudflare.com/turnstile/v0/api.js"
     async
-    defer></script>
-
+    defer
+  ></script>
   <main class="wrap">
     <section class="contact-panel glass">
       <h1>Say hello</h1>
@@ -29,8 +29,7 @@ const SITE_KEY = process.env.TURNSTILE_SITE_KEY ?? '1x00000000000000000000AA'
           class="cf-turnstile"
           data-sitekey={SITE_KEY}
           data-callback="onTurnstileSuccess"
-        >
-        </div>
+        ></div>
         <noscript>
           <p class="status error">
             JavaScript is required to complete this check.
@@ -42,7 +41,9 @@ const SITE_KEY = process.env.TURNSTILE_SITE_KEY ?? '1x00000000000000000000AA'
 
       <div class="email-result" id="email-result" hidden>
         <a class="email-link" id="email-link"></a>
-        <button class="button" id="copy-btn" type="button">Copy address</button>
+        <button class="button" id="copy-btn" type="button">
+          Copy address
+        </button>
       </div>
     </section>
   </main>
